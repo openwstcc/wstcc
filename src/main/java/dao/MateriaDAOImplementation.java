@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Materia;
+import model.Usuario;
 
 public class MateriaDAOImplementation implements MateriaDAO{
 
 	@Override
-	public List<Materia> buscarMaterias() {
+	public List<Materia> buscarTodasMaterias() {
 		try {
 		Connection con = JDBCUtil.getInstance().getConnection();		
 		PreparedStatement pstmt = con.prepareStatement("SELECT ID_MATERIA, MATERIA, SEMESTRE FROM MATERIA");
@@ -33,6 +34,7 @@ public class MateriaDAOImplementation implements MateriaDAO{
 			return null;
 		}
 	}
+
 
 	
 }
