@@ -13,5 +13,4 @@ interface DuvidaDAO {
 	public List <Duvida> buscarDuvidasMateria (Materia m);
 	public List <Duvida> buscarDuvidasUsuario (Usuario u);
 	public List <Duvida> buscarDuvidasTags( Tag t);
-	
 }

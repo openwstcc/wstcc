@@ -1,5 +1,10 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Materia;
@@ -7,27 +12,27 @@ import model.Materia;
 public class MateriaDAOImplementation implements MateriaDAO{
 
 	@Override
-	public void adicionarMateria(Materia m) {
-		// TODO Auto-generated method stub
+	public List<Materia> buscarMaterias() {
+		try {
+		Connection con = JDBCUtil.getInstance().getConnection();		
+		PreparedStatement pstmt = con.prepareStatement("SELECT ID_MATERIA, MATERIA, SEMESTRE FROM MATERIA");
+		ResultSet rs = pstmt.executeQuery();
+		List<Materia> materias =  new ArrayList<Materia>();
 		
+		while(rs.next()){
+			Materia m = new Materia();
+			m.setIdMateria(rs.getInt("ID_MATERIA"));
+			m.setMateria(rs.getString("MATERIA"));
+			m.setSemestre(rs.getInt("SEMESTRE"));
+			materias.add(m);
+		}
+			return materias;
+		} catch (SQLException e) {
+			System.out.println("Erro ao carregar lista de Matérias");
+			System.out.println(e);			
+			return null;
+		}
 	}
 
-	@Override
-	public void removerMateria(Materia m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void alterarMateria(Materia m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Materia> buscarMaterias(Materia m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
