@@ -6,7 +6,9 @@ public class Usuario {
 	private int idUsuario;
 	private String perfil;
 	private String nome;
+	private String sobrenome;
 	private String senha;
+	private int telefone;
 	private Date dataNasc;
 	private String email;
 
@@ -34,6 +36,14 @@ public class Usuario {
 		this.nome = nome;
 	}
 
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}	
+
 	public String getSenha() {
 		return senha;
 	}
@@ -56,7 +66,16 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}	
+
+	public int getTelefone() {
+		return telefone;
 	}
+
+	public void setTelefone(int telefone) {
+		this.telefone = telefone;
+	}
+
 
 	@Override
 	public String toString() {
@@ -72,6 +91,7 @@ public class Usuario {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + idUsuario;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		return result;
