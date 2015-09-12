@@ -13,12 +13,6 @@ public class TagDAOImplementation implements TagDAO {
 	}
 
 	@Override
-	public void removerTag(Tag t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public List<Tag> buscarTags(Tag t) {
 		// TODO Auto-generated method stub
 		return null;

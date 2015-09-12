@@ -28,7 +28,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 				m.setSemestre(rs.getInt("SEMESTRE"));
 				materias.add(m);
 			}
-
+			pstmt.close();
 			return materias;
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar lista de Matérias");

@@ -8,7 +8,7 @@ public class Usuario {
 	private String nome;
 	private String sobrenome;
 	private String senha;
-	private int telefone;
+	private String telefone;
 	private Date dataNasc;
 	private String email;
 
@@ -66,16 +66,15 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}	
+	}
 
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-
 
 	@Override
 	public String toString() {

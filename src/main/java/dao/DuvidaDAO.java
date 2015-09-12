@@ -9,8 +9,8 @@ import java.util.List;
 interface DuvidaDAO {
 	public void adicionarDuvida (Duvida d, Usuario u, List <Materia> m, List<Tag> t);
 	public void alterarDuvida (Duvida d);
-	public void removerDuvida (Duvida d);
-	public List <Duvida> buscarDuvidasMateria (Materia m);
+	public void removerDuvida (Duvida d);	
+	public List <Duvida> buscarDuvidasMateria (Materia m, Usuario u);
 	public List <Duvida> buscarDuvidasUsuario (Usuario u);
-	public List <Duvida> buscarDuvidasTags( Tag t);
+	public List <Duvida> buscarDuvidasTags (Tag t);
 }

@@ -28,7 +28,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	}
 
 	@Override
-	public List<Duvida> buscarDuvidasMateria(Materia m) {
+	public List<Duvida> buscarDuvidasMateria(Materia m, Usuario u) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -44,6 +44,5 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
