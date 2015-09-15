@@ -9,6 +9,11 @@ public class UsuarioControl {
 	}
 
 	public void alterarUsuario(JsonObject usuario) {
+		
+	}
+	
+	public void alterarSenha(JsonObject usuario) {
+		
 	}
 
 	public JsonObject buscarUsuarios() {

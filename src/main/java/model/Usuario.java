@@ -75,12 +75,8 @@ public class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-
-	@Override
-	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", perfil=" + perfil + ", nome=" + nome + ", senha=" + senha
-				+ ", dataNasc=" + dataNasc + ", email=" + email + "]";
-	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -90,9 +86,10 @@ public class Usuario {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + idUsuario;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
+		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
 		return result;
 	}
 
@@ -132,7 +129,23 @@ public class Usuario {
 				return false;
 		} else if (!senha.equals(other.senha))
 			return false;
+		if (sobrenome == null) {
+			if (other.sobrenome != null)
+				return false;
+		} else if (!sobrenome.equals(other.sobrenome))
+			return false;
+		if (telefone == null) {
+			if (other.telefone != null)
+				return false;
+		} else if (!telefone.equals(other.telefone))
+			return false;
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [idUsuario=" + idUsuario + ", perfil=" + perfil + ", nome=" + nome + ", sobrenome=" + sobrenome
+				+ ", senha=" + senha + ", telefone=" + telefone + ", dataNasc=" + dataNasc + ", email=" + email + "]";
+	}
+	
 }
