@@ -5,6 +5,7 @@ import java.util.Date;
 public class Resposta {
 	private int idResposta;
 	private String resposta;
+	private String criador;
 	private Date dataCriacao;
 	private int rank;
 	private boolean flagProfessor;
@@ -58,16 +59,26 @@ public class Resposta {
 		this.flagCriador = flagCriador;
 	}
 
+	public String getCriador() {
+		return criador;
+	}
+
+	public void setCriador(String criador) {
+		this.criador = criador;
+	}
+
 	@Override
 	public String toString() {
-		return "Resposta [idResposta=" + idResposta + ", resposta=" + resposta + ", dataCriacao=" + dataCriacao
-				+ ", rank=" + rank + ", flagProfessor=" + flagProfessor + ", flagCriador=" + flagCriador + "]";
+		return "Resposta [idResposta=" + idResposta + ", resposta=" + resposta + ", criador=" + criador
+				+ ", dataCriacao=" + dataCriacao + ", rank=" + rank + ", flagProfessor=" + flagProfessor
+				+ ", flagCriador=" + flagCriador + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((criador == null) ? 0 : criador.hashCode());
 		result = prime * result + ((dataCriacao == null) ? 0 : dataCriacao.hashCode());
 		result = prime * result + (flagCriador ? 1231 : 1237);
 		result = prime * result + (flagProfessor ? 1231 : 1237);
@@ -86,6 +97,11 @@ public class Resposta {
 		if (getClass() != obj.getClass())
 			return false;
 		Resposta other = (Resposta) obj;
+		if (criador == null) {
+			if (other.criador != null)
+				return false;
+		} else if (!criador.equals(other.criador))
+			return false;
 		if (dataCriacao == null) {
 			if (other.dataCriacao != null)
 				return false;

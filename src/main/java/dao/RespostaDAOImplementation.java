@@ -1,22 +1,67 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import model.Duvida;
 import model.Resposta;
 
 public class RespostaDAOImplementation implements RespostaDAO {
 
 	@Override
-	public void adicionarResposta(Resposta r, Duvida d) {
-		// TODO Auto-generated method stub
-		
+	public void adicionarResposta(Resposta r, int id_duvida, int id_usuario) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"INSERT INTO RESPOSTA (ID_USUARIO, ID_DUVIDA, RESPOSTA, RANK, FLAG_PROF, FLAG_ALUNO, DATA_CRIACAO) "
+							+ " VALUES (?,?,?,?,?,?,?);");
+			pstmt.setInt(1, id_usuario);
+			pstmt.setInt(2, id_duvida);
+			pstmt.setString(3, r.getResposta());
+			pstmt.setInt(3, 0);
+			pstmt.setBoolean(4, false);
+			pstmt.setBoolean(5, false);
+			java.sql.Date dataBanco = new java.sql.Date(r.getDataCriacao().getTime());
+			pstmt.setDate(6, dataBanco);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir Resposta.");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public List<Resposta> buscarRespostas(Duvida d) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Resposta> buscarRespostas(int id_duvida) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM RESPOSTA WHERE ID_DUVIDA=?");
+			pstmt.setInt(1, id_duvida);
+			ResultSet rs = pstmt.executeQuery();
+			List<Resposta> respostas = new ArrayList<Resposta>();
+			
+			while (rs.next()) {
+				Resposta r = new Resposta();
+				r.setResposta(rs.getString("RESPOSTA"));
+				r.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				r.setFlagProfessor(rs.getBoolean("FLAG_PROF"));
+				r.setFlagCriador(rs.getBoolean("FLAG_ALUN"));
+				r.setRank(rs.getInt("RANK"));
+				respostas.add(r);
+			}
+			
+			pstmt.close();
+			return respostas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar Respostas.");
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

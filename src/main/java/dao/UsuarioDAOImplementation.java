@@ -81,7 +81,6 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	@Override
@@ -101,3 +100,4 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 	}
 
 }
+	

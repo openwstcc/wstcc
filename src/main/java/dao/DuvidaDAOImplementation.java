@@ -22,25 +22,25 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	}
 
 	@Override
-	public void removerDuvida(Duvida d) {
+	public void removerDuvida(int id_duvida) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<Duvida> buscarDuvidasMateria(Materia m, Usuario u) {
+	public List<Duvida> buscarDuvidasMateria(int id_materia) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Duvida> buscarDuvidasUsuario(Usuario u) {
+	public List<Duvida> buscarDuvidasUsuario(int id_usuario) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Duvida> buscarDuvidasTags(Tag t) {
+	public List<Duvida> buscarDuvidasTags(int id_tag) {
 		// TODO Auto-generated method stub
 		return null;
 	}
