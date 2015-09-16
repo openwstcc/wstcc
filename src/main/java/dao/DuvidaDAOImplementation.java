@@ -24,7 +24,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
-					.prepareStatement("INSERT INTO DUVIDA (ID_USUARIO, TITULO_DUVIDA, CONTEUDO_DUVIDA, DATA_CRIACAO)"
+					.prepareStatement("INSERT INTO DUVIDA (ID_USUARIO, TITULO_DUVIDA, CONTEUDO_DUVIDA, DATA_CRIACAO) "
 							+ "VALUES (?,?,?,?)");
 			pstmt.setInt(1, id_usuario);
 			pstmt.setString(2, d.getTitulo());
@@ -90,9 +90,10 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM MATERIA_DUVIDA MD"
-							+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA"
-							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=" + id_materia);
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM MATERIA_DUVIDA MD "
+							+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA "
+							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=?");			
+			pstmt.setInt(1, id_materia);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
 			while (rs.next()) {
@@ -117,8 +118,9 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
-							+ "INNER JOIN usuario u ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=" + id_usuario);
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D "
+							+ "INNER JOIN usuario u ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=?");
+			pstmt.setInt(1, id_usuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
 			while (rs.next()) {
@@ -144,9 +146,10 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
-							+ "INNER JOIN duvida_tag DT on D.ID_DUVIDA=DT.ID_DUVIDA"
-							+ "INNER JOIN usuario U ON U.ID_USUARIO=D.ID_USUARIO WHERE DT.ID_TAG=" + id_tag);
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D "
+							+ "INNER JOIN duvida_tag DT on D.ID_DUVIDA=DT.ID_DUVIDA "
+							+ "INNER JOIN usuario U ON U.ID_USUARIO=D.ID_USUARIO WHERE DT.ID_TAG=?");
+			pstmt.setInt(1, id_tag);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
 			while (rs.next()) {
@@ -171,7 +174,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		Boolean valida = false;
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("select COUNT(id_duvida) as totalDeRespostas"
+			PreparedStatement pstmt = con.prepareStatement("select COUNT(id_duvida) as totalDeRespostas "
 					+ "from RESPOSTA where id_resposta=? ORDER BY id_resposta");
 			pstmt.setInt(1, id_duvida);
 			ResultSet rs = pstmt.executeQuery();

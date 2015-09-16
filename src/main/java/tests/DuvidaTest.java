@@ -18,17 +18,14 @@ public class DuvidaTest {
 			"Lorem ipsum consectetur arcu, inceptos molestie facilisis condimentum, inceptos rhoncus",
 			"Dictum vivamus semper aliquam imperdiet facilisis, praesent vestibulum accumsan hac.",
 			"Congue semper aliquam condimentum arcu vel tincidunt fermentum, sem ligula senectus euismod urna.",
-			"Varius donec pretium arcu class in nostra tortor, fusce molestie venenatis litora senectus" };
-	@SuppressWarnings("deprecation")
-	private Date[] dataCriacao = { new Date("20/04/2015"), new Date("16/09/2015"), new Date("10/05/2015"),
-			new Date("08/12/2014"), new Date("14/07/2015"), };
+			"Varius donec pretium arcu class in nostra tortor, fusce molestie venenatis litora senectus" };	
 
 	public Duvida insertDuvida() {
 		d = new Duvida();
 		Random r = new Random();
 		d.setTitulo(titulo[r.nextInt(4)]);
 		d.setConteudo(conteudo[r.nextInt(4)]);
-		d.setDataCriacao(dataCriacao[r.nextInt(4)]);
+		d.setDataCriacao(new Date());
 		return d;
 	}
 }

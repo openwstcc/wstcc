@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class DuvidaDAOTest {
 	private static Materia m;
 	private static Tag t;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		// Insert de Duvida com Materia
 		//System.out.println("Teste de insert de duvida (1 materia): " + insertDuvidaMateria());
 		// Insert de Duvida com Materias
@@ -24,11 +25,14 @@ public class DuvidaDAOTest {
 		// Insert de Duvida com Materias e Tags
 		//System.out.println("Teste de insert de duvida (+ materia & tag): " + insertDuvidaMateriasTag());
 		// Select de Duvida por Materia
-		System.out.println(selectDuvidasMateria());
+		for(Duvida d : selectDuvidasMateria())
+			System.out.println(d);
 		// Select de Duvida por Usuario
-		System.out.println(selectDuvidasUsuario());
+		for(Duvida d : selectDuvidasUsuario())
+			System.out.println(d);
 		// Select de Duvida por Tag
-		System.out.println(selectDuvidasTags());
+		for(Duvida d : selectDuvidasTags())
+			System.out.println(d);
 	}
 
 	public static boolean insertDuvidaMateria() {
