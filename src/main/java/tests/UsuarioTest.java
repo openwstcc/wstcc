@@ -11,8 +11,7 @@ public class UsuarioTest {
 	private String[] senha = { "1234", "4321", "1423", "2134", "4123", "3124" };
 	private String[] telefone = { "+551191238423", "+551191124423", "+551199138588", "+5511933216523",
 			"+5511951231123" };
-
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")		
 	private Date[] dataNasc = { new Date("20/04/1996"), new Date("19/09/1995"), new Date("10/05/1997"),
 			new Date("08/12/1998"), new Date("14/07/1999"), };
 
