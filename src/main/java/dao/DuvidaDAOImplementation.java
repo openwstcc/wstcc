@@ -33,6 +33,25 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			java.sql.Date dataCriacao = new java.sql.Date(getToday().getTime());
 			pstmt.setDate(4, dataCriacao);
 			pstmt.executeUpdate();
+
+			for (Materia materia : m) {
+				pstmt = con.prepareStatement(
+						"INSERT INTO MATERIA_DUVIDA (ID_MATERIA, ID_DUVIDA) VALUES (?,LAST_INSERT_ID());");
+				pstmt.setInt(1, materia.getIdMateria());
+				pstmt.setInt(2, d.getIdDuvida());
+				pstmt.executeUpdate();
+			}
+
+			if (!t.isEmpty()) {
+				for (Tag tag : t) {
+					pstmt = con.prepareStatement(
+							"INSERT INTO DUVIDA_TAG (ID_DUVIDA, ID_TAG) VALUES (LAST_INSERT_ID(),?);");
+					pstmt.setInt(1, tag.getIdTag());
+					pstmt.setInt(2, d.getIdDuvida());
+					pstmt.executeUpdate();
+				}
+			}
+
 			pstmt.close();
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir o Dúvida");
