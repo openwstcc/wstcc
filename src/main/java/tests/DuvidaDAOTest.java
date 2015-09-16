@@ -1,7 +1,6 @@
 package tests;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -17,21 +16,25 @@ public class DuvidaDAOTest {
 	private static Materia m;
 	private static Tag t;
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		// Insert de Duvida com Materia
-		//System.out.println("Teste de insert de duvida (1 materia): " + insertDuvidaMateria());
+		// System.out.println("Teste de insert de duvida (1 materia): " +
+		// insertDuvidaMateria());
 		// Insert de Duvida com Materias
-		//System.out.println("Teste de insert de duvida (+ materia): " + insertDuvidaMaterias());
+		// System.out.println("Teste de insert de duvida (+ materia): " +
+		// insertDuvidaMaterias());
 		// Insert de Duvida com Materias e Tags
-		//System.out.println("Teste de insert de duvida (+ materia & tag): " + insertDuvidaMateriasTag());
+		// System.out.println("Teste de insert de duvida (+ materia & tag): " +
+		// insertDuvidaMateriasTag());
+
 		// Select de Duvida por Materia
-		for(Duvida d : selectDuvidasMateria())
+		for (Duvida d : selectDuvidasMateria())
 			System.out.println(d);
 		// Select de Duvida por Usuario
-		for(Duvida d : selectDuvidasUsuario())
+		for (Duvida d : selectDuvidasUsuario())
 			System.out.println(d);
 		// Select de Duvida por Tag
-		for(Duvida d : selectDuvidasTags())
+		for (Duvida d : selectDuvidasTags())
 			System.out.println(d);
 	}
 
@@ -91,23 +94,23 @@ public class DuvidaDAOTest {
 	}
 
 	public static List<Duvida> selectDuvidasMateria() {
-		DuvidaDAO dao = new DuvidaDAOImplementation();		
+		DuvidaDAO dao = new DuvidaDAOImplementation();
 		Random r = new Random();
-		
-		return dao.buscarDuvidasMateria(r.nextInt(5)+1);
+
+		return dao.buscarDuvidasMateria(r.nextInt(5) + 1);
 	}
 
 	public static List<Duvida> selectDuvidasTags() {
 		DuvidaDAO dao = new DuvidaDAOImplementation();
 		Random r = new Random();
-		
-		return dao.buscarDuvidasTags(r.nextInt(5)+1);
+
+		return dao.buscarDuvidasTags(r.nextInt(5) + 1);
 	}
 
 	public static List<Duvida> selectDuvidasUsuario() {
 		DuvidaDAO dao = new DuvidaDAOImplementation();
 		Random r = new Random();
-		
-		return dao.buscarDuvidasUsuario(r.nextInt(5)+1);
+
+		return dao.buscarDuvidasUsuario(r.nextInt(5) + 1);
 	}
 }
