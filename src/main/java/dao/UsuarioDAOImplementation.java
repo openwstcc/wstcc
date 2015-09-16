@@ -65,7 +65,8 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT NOME, SOBRENOME, TELEFONE, EMAIL, DATA_NASC, PERFIL FROM USUARIO WHERE ID_USUARIO=?");
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT NOME, SOBRENOME, TELEFONE, EMAIL, DATA_NASC, PERFIL FROM USUARIO WHERE ID_USUARIO=?");
 			pstmt.setInt(1, u.getIdUsuario());
 			ResultSet rs = pstmt.executeQuery();
 
@@ -106,4 +107,3 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 	}
 
 }
-	
