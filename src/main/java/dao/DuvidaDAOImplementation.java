@@ -11,7 +11,6 @@ import java.util.List;
 import model.Duvida;
 import model.Materia;
 import model.Tag;
-import model.Usuario;
 
 public class DuvidaDAOImplementation implements DuvidaDAO {
 
@@ -20,14 +19,14 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	}
 
 	@Override
-	public void adicionarDuvida(Duvida d, Usuario u, List<Materia> m, List<Tag> t) {
+	public boolean adicionarDuvida(Duvida d, int id_usuario, List<Materia> m, List<Tag> t) {
 
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("INSERT INTO DUVIDA (ID_USUARIO, TITULO_DUVIDA, CONTEUDO_DUVIDA, DATA_CRIACAO)"
 							+ "VALUES (?,?,?,?)");
-			pstmt.setInt(1, u.getIdUsuario());
+			pstmt.setInt(1, id_usuario);
 			pstmt.setString(2, d.getTitulo());
 			pstmt.setString(3, d.getConteudo());
 			java.sql.Date dataCriacao = new java.sql.Date(getToday().getTime());
@@ -37,8 +36,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			for (Materia materia : m) {
 				pstmt = con.prepareStatement(
 						"INSERT INTO MATERIA_DUVIDA (ID_MATERIA, ID_DUVIDA) VALUES (?,LAST_INSERT_ID());");
-				pstmt.setInt(1, materia.getIdMateria());
-				pstmt.setInt(2, d.getIdDuvida());
+				pstmt.setInt(1, materia.getIdMateria());				
 				pstmt.executeUpdate();
 			}
 
@@ -46,42 +44,45 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				for (Tag tag : t) {
 					pstmt = con.prepareStatement(
 							"INSERT INTO DUVIDA_TAG (ID_DUVIDA, ID_TAG) VALUES (LAST_INSERT_ID(),?);");
-					pstmt.setInt(1, tag.getIdTag());
-					pstmt.setInt(2, d.getIdDuvida());
+					pstmt.setInt(1, tag.getIdTag());					
 					pstmt.executeUpdate();
 				}
 			}
 
 			pstmt.close();
+			return true;
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir o Dúvida");
 			System.out.println(e);
+			return false;
 		}
 
 	}
 
 	@Override
-	public void removerDuvida(int id_duvida) {
-		if (this.validaDuvida(id_duvida) == true) {
+	public boolean removerDuvida(int id_duvida) {
+		if (this.validaDuvida(id_duvida) == false)
+			return false;
 
-			try {
-				Connection con;
-				con = JDBCUtil.getInstance().getConnection();
-				PreparedStatement pstmt = con
-						.prepareStatement("DELETE FROM MATERIA_DUVIDA WHERE ID_DUVIDA = " + id_duvida);
-				pstmt.executeQuery();
-				pstmt = con.prepareStatement("DELETE FROM DUVIDA_TAG  WHERE ID_DUVIDA = " + id_duvida);
-				pstmt.executeQuery();
-				pstmt = con.prepareStatement("DELETE FROM DUVIDA WHERE ID_DUVIDA" + id_duvida);
-				pstmt.executeQuery();
-				pstmt.close();
-				System.out.println("Duvida removida com sucesso!");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			Connection con;
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_DUVIDA WHERE ID_DUVIDA = " + id_duvida);
+			pstmt.executeQuery();
+			pstmt = con.prepareStatement("DELETE FROM DUVIDA_TAG  WHERE ID_DUVIDA = " + id_duvida);
+			pstmt.executeQuery();
+			pstmt = con.prepareStatement("DELETE FROM DUVIDA WHERE ID_DUVIDA" + id_duvida);
+			pstmt.executeQuery();
+			pstmt.close();
+			System.out.println("Duvida removida com sucesso!");
 
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao remover duvida.");
+			e.printStackTrace();
+			return false;
 		}
+
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			}
 			return duvidas;
 		} catch (SQLException e) {
-			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID Tag" + id_tag);
+			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID Tag." + id_tag);
 			System.out.println(e);
 			return null;
 		}
@@ -183,7 +184,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				 */
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao validar Duvida");
+			System.out.println("Erro ao validar Duvida.");
 			System.out.println(e);
 		}
 		return valida;
