@@ -97,7 +97,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.CONTEUDO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
 							+ "INNER JOIN usuario u ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=" + id_usuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
