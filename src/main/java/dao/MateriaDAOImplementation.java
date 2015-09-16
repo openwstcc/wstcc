@@ -82,7 +82,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 				materias.add(m);
 			}
 			pstmt.close();
-			return materias;
+			return materias; 
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar lista de Matérias por dúvida");
