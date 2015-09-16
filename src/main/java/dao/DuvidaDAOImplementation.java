@@ -121,8 +121,29 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	@Override
 	public List<Duvida> buscarDuvidasTags(int id_tag) {
 
-		return null;
-
+		try {
+			Connection con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
+							+ "INNER JOIN duvida_tag DT on D.ID_DUVIDA=DT.ID_DUVIDA"
+							+ "INNER JOIN usuario U ON U.ID_USUARIO=D.ID_USUARIO WHERE DT.ID_TAG=" + id_tag);
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setCriador(rs.getString("NOME"));
+				duvidas.add(d);
+			}
+			return duvidas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID Tag" + id_tag);
+			System.out.println(e);
+			return null;
+		}
 	}
 
 	@Override
