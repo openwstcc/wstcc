@@ -74,7 +74,7 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 				u.setSobrenome(rs.getString("SOBRENOME"));
 				u.setTelefone(rs.getString("TELEFONE"));
 				u.setEmail(rs.getString("EMAIL"));
-				u.setDataNasc(rs.getDate("DATA_NASC"));
+				u.setDataNasc(new java.util.Date(rs.getDate("DATA_NASC").getTime()));
 				u.setPerfil(rs.getString("PERFIL"));
 			}
 

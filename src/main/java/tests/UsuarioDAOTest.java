@@ -40,7 +40,7 @@ public class UsuarioDAOTest {
 		UsuarioDAOImplementation dao = new UsuarioDAOImplementation();	
 		Usuario u = new Usuario();
 		Random r = new Random();
-		u.setIdUsuario(r.nextInt(4));
+		u.setIdUsuario(1);
 		return dao.buscarUsuario(u);
 	}
 }
