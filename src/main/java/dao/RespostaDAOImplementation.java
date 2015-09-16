@@ -67,4 +67,55 @@ public class RespostaDAOImplementation implements RespostaDAO {
 		}
 	}
 
+	@Override
+	public boolean adicionaRank(int id_resposta) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET RANK=RANK+1 WHERE ID_RESPOSTA=?");
+			pstmt.setInt(1, id_resposta);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar Rank.");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean alteraFlagAluno(int id_resposta) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET FLAG_ALUNO=TRUE WHERE ID_RESPOSTA=?");
+			pstmt.setInt(1, id_resposta);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar Flag de Aluno.");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean alteraFlagProfessor(int id_resposta) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET FLAG_PROF=TRUE WHERE ID_RESPOSTA=?");
+			pstmt.setInt(1, id_resposta);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar Flag de Professor.");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

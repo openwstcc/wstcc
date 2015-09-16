@@ -14,6 +14,12 @@ public class RespostaDAOTest {
 		// Select de Respostas
 		for(Resposta r : selectRespostas())
 			System.out.println(r);
+		// Increment de Rank
+		System.out.println("Teste de adição de Rank:"+adicionaRank());
+		// Altera Flag de Aluno
+		System.out.println("Teste de alteração de Flag de Aluno:"+alteraFlagAluno());
+		// Altera Flag de Professor
+		System.out.println("Teste de alteração de Flag de Professor:"+alterarFlagProf());
 	}
 
 	public static boolean insertResposta() {
@@ -26,6 +32,24 @@ public class RespostaDAOTest {
 	public static List<Resposta> selectRespostas(){
 		RespostaDAO dao = new RespostaDAOImplementation();
 		Random rnd = new Random();
-		return dao.buscarRespostas(rnd.nextInt(5));
+		return dao.buscarRespostas(rnd.nextInt(5)+1);
+	}
+	
+	public static boolean adicionaRank(){
+		RespostaDAO dao = new RespostaDAOImplementation();
+		Random rnd = new Random();
+		return dao.adicionaRank(rnd.nextInt(5)+1);
+	}
+	
+	public static boolean alteraFlagAluno(){
+		RespostaDAO dao = new RespostaDAOImplementation();
+		Random rnd = new Random();
+		return dao.alteraFlagAluno(rnd.nextInt(5)+1);
+	}
+	
+	public static boolean alterarFlagProf(){
+		RespostaDAO dao = new RespostaDAOImplementation();
+		Random rnd = new Random();
+		return dao.alteraFlagProfessor(rnd.nextInt(5)+1);
 	}
 }
