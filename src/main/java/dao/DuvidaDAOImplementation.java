@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,20 +67,62 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 
 	@Override
 	public List<Duvida> buscarDuvidasMateria(int id_materia) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Connection con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM materia_duvida MD"
+							+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA"
+							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=" + id_materia);
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setCriador(rs.getString("NOME"));
+				duvidas.add(d);
+			}
+			return duvidas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID matéria" + id_materia);
+			System.out.println(e);
+			return null;
+		}
 	}
 
 	@Override
 	public List<Duvida> buscarDuvidasUsuario(int id_usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Connection con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT D.ID_DUVIDA,D.CONTEUDO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM duvida D"
+							+ "INNER JOIN usuario u ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=" + id_usuario);
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setCriador(rs.getString("NOME"));
+				duvidas.add(d);
+			}
+			return duvidas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID usuário" + id_usuario);
+			System.out.println(e);
+			return null;
+		}
 	}
 
 	@Override
 	public List<Duvida> buscarDuvidasTags(int id_tag) {
-		// TODO Auto-generated method stub
+
 		return null;
+
 	}
 
 	@Override
