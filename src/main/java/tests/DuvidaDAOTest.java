@@ -6,6 +6,7 @@ import java.util.Random;
 
 import dao.DuvidaDAO;
 import dao.DuvidaDAOImplementation;
+import model.Duvida;
 import model.Materia;
 import model.Tag;
 
@@ -16,12 +17,18 @@ public class DuvidaDAOTest {
 	private static Tag t;
 
 	public static void main(String[] args) {
-		//Insert de Duvida com Materia
-		System.out.println("Teste de insert de duvida (1 materia): "+insertDuvidaMateria());
-		//Insert de Duvida com Materias
-		System.out.println("Teste de insert de duvida (+ materia): "+insertDuvidaMaterias());
-		//Insert de Duvida com Materias e Tags
-		System.out.println("Teste de insert de duvida (+ materia & tag): "+insertDuvidaMateriasTag());
+		// Insert de Duvida com Materia
+		//System.out.println("Teste de insert de duvida (1 materia): " + insertDuvidaMateria());
+		// Insert de Duvida com Materias
+		//System.out.println("Teste de insert de duvida (+ materia): " + insertDuvidaMaterias());
+		// Insert de Duvida com Materias e Tags
+		//System.out.println("Teste de insert de duvida (+ materia & tag): " + insertDuvidaMateriasTag());
+		// Select de Duvida por Materia
+		System.out.println(selectDuvidasMateria());
+		// Select de Duvida por Usuario
+		System.out.println(selectDuvidasUsuario());
+		// Select de Duvida por Tag
+		System.out.println(selectDuvidasTags());
 	}
 
 	public static boolean insertDuvidaMateria() {
@@ -31,7 +38,7 @@ public class DuvidaDAOTest {
 
 		m = new Materia();
 		ms = new ArrayList<Materia>();
-		m.setIdMateria(r.nextInt(9)+1);
+		m.setIdMateria(r.nextInt(9) + 1);
 		ms.add(m);
 
 		tgs = new ArrayList<Tag>();
@@ -46,10 +53,10 @@ public class DuvidaDAOTest {
 		m = new Materia();
 		ms = new ArrayList<Materia>();
 		int min = 10;
-		int max = 20;		
-		m.setIdMateria(r.nextInt(9)+1);
+		int max = 20;
+		m.setIdMateria(r.nextInt(9) + 1);
 		ms.add(m);
-		m.setIdMateria(r.nextInt(max-min) + min);
+		m.setIdMateria(r.nextInt(max - min) + min);
 		ms.add(m);
 
 		tgs = new ArrayList<Tag>();
@@ -63,19 +70,40 @@ public class DuvidaDAOTest {
 		Random r = new Random();
 
 		m = new Materia();
-		ms = new ArrayList<Materia>();		
+		ms = new ArrayList<Materia>();
 		int min = 10;
-		int max = 20;		
-		m.setIdMateria(r.nextInt(9)+1);
+		int max = 20;
+		m.setIdMateria(r.nextInt(9) + 1);
 		ms.add(m);
-		m.setIdMateria(r.nextInt(max-min) + min);
+		m.setIdMateria(r.nextInt(max - min) + min);
 		ms.add(m);
 
 		tgs = new ArrayList<Tag>();
 		t = new Tag();
-		t.setIdTag(r.nextInt(5)+1);
+		t.setIdTag(r.nextInt(5) + 1);
 		tgs.add(t);
 
 		return dao.adicionarDuvida(d.insertDuvida(), r.nextInt(4) + 1, ms, tgs);
+	}
+
+	public static List<Duvida> selectDuvidasMateria() {
+		DuvidaDAO dao = new DuvidaDAOImplementation();		
+		Random r = new Random();
+		
+		return dao.buscarDuvidasMateria(r.nextInt(5)+1);
+	}
+
+	public static List<Duvida> selectDuvidasTags() {
+		DuvidaDAO dao = new DuvidaDAOImplementation();
+		Random r = new Random();
+		
+		return dao.buscarDuvidasTags(r.nextInt(5)+1);
+	}
+
+	public static List<Duvida> selectDuvidasUsuario() {
+		DuvidaDAO dao = new DuvidaDAOImplementation();
+		Random r = new Random();
+		
+		return dao.buscarDuvidasUsuario(r.nextInt(5)+1);
 	}
 }

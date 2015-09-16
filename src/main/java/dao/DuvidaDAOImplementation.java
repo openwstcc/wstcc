@@ -90,7 +90,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM materia_duvida MD"
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM MATERIA_DUVIDA MD"
 							+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA"
 							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=" + id_materia);
 			ResultSet rs = pstmt.executeQuery();

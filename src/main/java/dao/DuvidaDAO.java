@@ -3,7 +3,6 @@ package dao;
 import model.Duvida;
 import model.Materia;
 import model.Tag;
-import model.Usuario;
 import java.util.List;
 
 public interface DuvidaDAO {
