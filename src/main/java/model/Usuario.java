@@ -42,7 +42,7 @@ public class Usuario {
 
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
-	}	
+	}
 
 	public String getSenha() {
 		return senha;
@@ -75,8 +75,6 @@ public class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -147,5 +145,5 @@ public class Usuario {
 		return "Usuario [idUsuario=" + idUsuario + ", perfil=" + perfil + ", nome=" + nome + ", sobrenome=" + sobrenome
 				+ ", senha=" + senha + ", telefone=" + telefone + ", dataNasc=" + dataNasc + ", email=" + email + "]";
 	}
-	
+
 }

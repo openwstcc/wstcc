@@ -9,13 +9,13 @@ import model.Usuario;
 public class UsuarioDAOImplementation implements UsuarioDAO {
 
 	@Override
-	public void adicionarUsuario(Usuario u) {
+	public boolean adicionarUsuario(Usuario u) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"INSERT INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, MD5(SENHA)) "
-							+ " VALUES (?,?,?,?,?,?,?,?);");
+					"INSERT INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, SENHA) "
+							+ " VALUES (?,?,?,?,?,?,MD5(?));");
 			pstmt.setString(1, u.getNome());
 			pstmt.setString(2, u.getSobrenome());
 			pstmt.setString(3, u.getTelefone());
@@ -26,20 +26,22 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 			pstmt.setString(7, u.getSenha());
 			pstmt.executeUpdate();
 			pstmt.close();
+			return true;
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir Usuário.");
 			e.printStackTrace();
+			return false;
 		}
 	}
 
 	@Override
-	public void alterarUsuario(Usuario u) {
+	public boolean alterarUsuario(Usuario u) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
 					"UPDATE USUARIO SET NOME=?, SOBRENOME=?, TELEFONE=?, DATA_NASC=?, EMAIL=?, PERFIL=?"
-							+ "WHERE USUARIO_ID=?);");
+							+ "WHERE ID_USUARIO=?;");
 			pstmt.setString(1, u.getNome());
 			pstmt.setString(2, u.getSobrenome());
 			pstmt.setString(3, u.getTelefone());
@@ -50,9 +52,11 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 			pstmt.setInt(7, u.getIdUsuario());
 			pstmt.executeUpdate();
 			pstmt.close();
+			return true;
 		} catch (SQLException e) {
 			System.out.println("Erro ao atualizar informações de Usuário.");
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -61,7 +65,7 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM USUARIO WHERE ID_USUARIO=?");
+			PreparedStatement pstmt = con.prepareStatement("SELECT NOME, SOBRENOME, TELEFONE, EMAIL, DATA_NASC, PERFIL FROM USUARIO WHERE ID_USUARIO=?");
 			pstmt.setInt(1, u.getIdUsuario());
 			ResultSet rs = pstmt.executeQuery();
 
@@ -84,18 +88,20 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 	}
 
 	@Override
-	public void alterarSenha(Usuario u) {
+	public boolean alterarSenha(Usuario u) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("UPDATE USUARIO SET SENHA=MD5(?) WHERE USUARIO_ID=?);");
+			PreparedStatement pstmt = con.prepareStatement("UPDATE USUARIO SET SENHA=MD5(?) WHERE ID_USUARIO=?;");
 			pstmt.setString(1, u.getSenha());
 			pstmt.setInt(2, u.getIdUsuario());
 			pstmt.executeUpdate();
 			pstmt.close();
+			return true;
 		} catch (SQLException e) {
 			System.out.println("Erro ao atualizar senha de Usuário.");
 			e.printStackTrace();
+			return false;
 		}
 	}
 
