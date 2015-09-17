@@ -18,7 +18,7 @@ public class DuvidaTest {
 			"Lorem ipsum consectetur arcu, inceptos molestie facilisis condimentum, inceptos rhoncus",
 			"Dictum vivamus semper aliquam imperdiet facilisis, praesent vestibulum accumsan hac.",
 			"Congue semper aliquam condimentum arcu vel tincidunt fermentum, sem ligula senectus euismod urna.",
-			"Varius donec pretium arcu class in nostra tortor, fusce molestie venenatis litora senectus" };	
+			"Varius donec pretium arcu class in nostra tortor, fusce molestie venenatis litora senectus" };
 
 	public Duvida insertDuvida() {
 		d = new Duvida();
@@ -26,6 +26,7 @@ public class DuvidaTest {
 		d.setTitulo(titulo[r.nextInt(4)]);
 		d.setConteudo(conteudo[r.nextInt(4)]);
 		d.setDataCriacao(new Date());
+		System.out.println("Duvida Teste: " + d.toString());
 		return d;
 	}
 }
