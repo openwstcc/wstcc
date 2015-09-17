@@ -79,8 +79,8 @@ public class TagDAOImplementation implements TagDAO {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("SELECT ID_TAG, NOME FROM TAG AS T INNER JOIN "
-					+ "TAG_DUVIDA AS TD ON T.ID_TAG=TD.ID_TAG WHERE T.ID_DUVIDA=?");
+			PreparedStatement pstmt = con.prepareStatement("SELECT T.ID_TAG, T.NOME FROM TAG AS T INNER JOIN "
+					+ "DUVIDA_TAG AS TD ON T.ID_TAG=TD.ID_TAG WHERE TD.ID_DUVIDA=?");
 			pstmt.setInt(1, id_duvida);
 			ResultSet rs = pstmt.executeQuery();
 			List<Tag> tags = new ArrayList<Tag>();
