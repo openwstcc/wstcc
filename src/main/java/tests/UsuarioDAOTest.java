@@ -10,14 +10,13 @@ public class UsuarioDAOTest {
 
 	public static void main(String[] args) {
 		// Insert de Usuário
-		// System.out.println("Teste de insert de usuario: "+insertUsuario());
+		System.out.println("Teste de insert de usuario: " + insertUsuario());
 		// Alteração de Usuário
-		// System.out.println("Teste de alteração de usuario: " +
-		// alterarUsuario());
+		System.out.println("Teste de alteração de usuario: " + alterarUsuario());
 		// Alteração de Senha
-		// System.out.println("Teste de alteração de senha: " + alterarSenha());
+		System.out.println("Teste de alteração de senha: " + alterarSenha());
 		// Select de Usuário
-		// System.out.println("Teste de select de usuario: " + selectUsuario());
+		System.out.println("Teste de select de usuario: " + selectUsuario());
 		// Teste de Login de Usuário
 		System.out.println("Teste de login de usuario: " + loginUsuario());
 	}

@@ -1,17 +1,27 @@
 package control;
 
-import com.google.gson.JsonObject;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import dao.MateriaDAO;
+import dao.MateriaDAOImplementation;
+import model.Materia;
 
 public class MateriaControl {
-	public JsonObject buscarMariasDuvida() {
+	public String buscarMariasDuvida() {
 		return null;
 	}
 
-	public JsonObject buscarMariasUsuario() {
+	public String buscarMariasUsuario() {
 		return null;
 	}
 
-	public JsonObject buscarTodasMaterias() {
-		return null;
+	public String buscarTodasMaterias() {
+		MateriaDAO dao = new MateriaDAOImplementation();		
+		List<Materia> materias = dao.buscarTodasMaterias();
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(materias);
+		return json;
 	}
 }
