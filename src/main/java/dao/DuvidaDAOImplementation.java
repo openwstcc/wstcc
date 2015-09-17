@@ -12,8 +12,20 @@ import model.Duvida;
 import model.Materia;
 import model.Tag;
 
+/**
+ * DAO (Data Access Object) responsável pelos métodos de Dúvidas.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class DuvidaDAOImplementation implements DuvidaDAO {
 
+	/**
+	 * Método utilizado para pegar informações de data do momento de inserção da
+	 * dúvida.
+	 * 
+	 * @return Dia Atual
+	 */
 	public Date getToday() {
 		return new Date();
 	}
@@ -36,7 +48,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			for (Materia materia : m) {
 				pstmt = con.prepareStatement(
 						"INSERT INTO MATERIA_DUVIDA (ID_MATERIA, ID_DUVIDA) VALUES (?,LAST_INSERT_ID());");
-				pstmt.setInt(1, materia.getIdMateria());				
+				pstmt.setInt(1, materia.getIdMateria());
 				pstmt.executeUpdate();
 			}
 
@@ -44,7 +56,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				for (Tag tag : t) {
 					pstmt = con.prepareStatement(
 							"INSERT INTO DUVIDA_TAG (ID_DUVIDA, ID_TAG) VALUES (LAST_INSERT_ID(),?);");
-					pstmt.setInt(1, tag.getIdTag());					
+					pstmt.setInt(1, tag.getIdTag());
 					pstmt.executeUpdate();
 				}
 			}
@@ -68,13 +80,13 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			Connection con;
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
-			pstmt.setInt(1,id_duvida);
+			pstmt.setInt(1, id_duvida);
 			pstmt.executeQuery();
 			pstmt = con.prepareStatement("DELETE FROM DUVIDA_TAG  WHERE ID_DUVIDA=?");
-			pstmt.setInt(1,id_duvida);
+			pstmt.setInt(1, id_duvida);
 			pstmt.executeQuery();
 			pstmt = con.prepareStatement("DELETE FROM DUVIDA WHERE ID_DUVIDA=?");
-			pstmt.setInt(1,id_duvida);
+			pstmt.setInt(1, id_duvida);
 			pstmt.executeQuery();
 			pstmt.close();
 			System.out.println("Duvida removida com sucesso!");
@@ -95,7 +107,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			PreparedStatement pstmt = con.prepareStatement(
 					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME FROM MATERIA_DUVIDA MD "
 							+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA "
-							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=?");			
+							+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=?");
 			pstmt.setInt(1, id_materia);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
@@ -173,7 +185,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	}
 
 	@Override
-	public boolean validaDuvida(int id_duvida) {		
+	public boolean validaDuvida(int id_duvida) {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("select COUNT(id_duvida) as totalDeRespostas "
@@ -185,15 +197,15 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			 * Se totalResposta for igual a 0, portanto a Duvida nao possui
 			 * resposta e ela poderá ser removida
 			 */
-			if (totalResposta == 0) 
+			if (totalResposta == 0)
 				return true;
-				
+
 			return false;
 		} catch (SQLException e) {
 			System.out.println("Erro ao validar Duvida.");
 			System.out.println(e);
 			return false;
-		}		
+		}
 	}
 
 }

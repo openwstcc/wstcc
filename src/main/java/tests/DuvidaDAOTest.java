@@ -18,15 +18,11 @@ public class DuvidaDAOTest {
 
 	public static void main(String[] args) {
 		// Insert de Duvida com Materia
-		// System.out.println("Teste de insert de duvida (1 materia): " +
-		// insertDuvidaMateria());
+		System.out.println("Teste de insert de duvida (1 materia): " + insertDuvidaMateria());
 		// Insert de Duvida com Materias
-		// System.out.println("Teste de insert de duvida (+ materia): " +
-		// insertDuvidaMaterias());
+		System.out.println("Teste de insert de duvida (+ materia): " + insertDuvidaMaterias());
 		// Insert de Duvida com Materias e Tags
-		// System.out.println("Teste de insert de duvida (+ materia & tag): " +
-		// insertDuvidaMateriasTag());
-
+		System.out.println("Teste de insert de duvida (+ materia & tag): " + insertDuvidaMateriasTag());
 		// Select de Duvida por Materia
 		for (Duvida d : selectDuvidasMateria())
 			System.out.println(d);
