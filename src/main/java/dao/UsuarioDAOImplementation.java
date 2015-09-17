@@ -106,4 +106,33 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 		}
 	}
 
+	@Override
+	public Usuario loginUsuario(Usuario u) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT ID_USUARIO, NOME, SOBRENOME, TELEFONE, EMAIL, DATA_NASC, PERFIL FROM USUARIO WHERE EMAIL=? AND SENHA=MD5(?)");
+			pstmt.setString(1, u.getEmail());
+			pstmt.setString(2, u.getSenha());
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				u.setIdUsuario(rs.getInt("ID_USUARIO"));
+				u.setNome(rs.getString("NOME"));
+				u.setSobrenome(rs.getString("SOBRENOME"));
+				u.setTelefone(rs.getString("TELEFONE"));
+				u.setEmail(rs.getString("EMAIL"));
+				u.setDataNasc(new java.util.Date(rs.getDate("DATA_NASC").getTime()));
+				u.setPerfil(rs.getString("PERFIL"));
+			}
+			pstmt.close();
+			return u;
+		} catch (SQLException e) {
+			System.out.println("Usuário e Senha inválidos.");
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

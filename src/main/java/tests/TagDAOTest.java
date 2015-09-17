@@ -17,7 +17,7 @@ public class TagDAOTest {
 		// Select de todas as Tags
 		System.out.println("Teste de select de tags: ");
 		for (Tag t : selectTags())
-			System.out.println(t);		
+			System.out.println(t);
 		// Select de todas as Tags por duvida
 		System.out.println("Teste de select de tags por duvida: ");
 		for (Tag t : selectTagsDuvida())

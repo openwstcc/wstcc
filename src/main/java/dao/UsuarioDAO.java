@@ -6,5 +6,6 @@ public interface UsuarioDAO {
 	public boolean adicionarUsuario(Usuario u);
 	public boolean alterarUsuario(Usuario u);	
 	public boolean alterarSenha(Usuario u);
+	public Usuario loginUsuario(Usuario u);
 	public Usuario buscarUsuario(Usuario u);		
 }

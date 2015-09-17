@@ -12,11 +12,14 @@ public class UsuarioDAOTest {
 		// Insert de Usuário
 		// System.out.println("Teste de insert de usuario: "+insertUsuario());
 		// Alteração de Usuário
-		System.out.println("Teste de alteração de usuario: " + alterarUsuario());
+		// System.out.println("Teste de alteração de usuario: " +
+		// alterarUsuario());
 		// Alteração de Senha
-		System.out.println("Teste de alteração de senha: " + alterarSenha());
+		// System.out.println("Teste de alteração de senha: " + alterarSenha());
 		// Select de Usuário
-		System.out.println("Teste de select de usuario: " + selectUsuario());
+		// System.out.println("Teste de select de usuario: " + selectUsuario());
+		// Teste de Login de Usuário
+		System.out.println("Teste de login de usuario: " + loginUsuario());
 	}
 
 	public static boolean insertUsuario() {
@@ -43,5 +46,13 @@ public class UsuarioDAOTest {
 		Random r = new Random();
 		u.setIdUsuario(r.nextInt(4) + 1);
 		return dao.buscarUsuario(u);
+	}
+
+	public static Usuario loginUsuario() {
+		UsuarioDAO dao = new UsuarioDAOImplementation();
+		Usuario u = new Usuario();
+		u.setEmail("GABRIEL.FATEC@HOTMAIL.COM");
+		u.setSenha("GABRIEL");
+		return dao.loginUsuario(u);
 	}
 }
