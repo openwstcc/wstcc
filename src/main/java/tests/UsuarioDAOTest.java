@@ -7,6 +7,8 @@ import dao.UsuarioDAOImplementation;
 import model.Usuario;
 
 public class UsuarioDAOTest {
+	static UsuarioDAO dao = new UsuarioDAOImplementation();
+	static UsuarioTest u = new UsuarioTest();
 
 	public static void main(String[] args) {
 		// Insert de Usuário
@@ -22,25 +24,18 @@ public class UsuarioDAOTest {
 	}
 
 	public static boolean insertUsuario() {
-		UsuarioDAO dao = new UsuarioDAOImplementation();
-		UsuarioTest u = new UsuarioTest();
 		return dao.adicionarUsuario(u.randomNoID());
 	}
 
 	public static boolean alterarUsuario() {
-		UsuarioDAO dao = new UsuarioDAOImplementation();
-		UsuarioTest u = new UsuarioTest();
 		return dao.alterarUsuario(u.randomID());
 	}
 
 	public static boolean alterarSenha() {
-		UsuarioDAO dao = new UsuarioDAOImplementation();
-		UsuarioTest u = new UsuarioTest();
 		return dao.alterarSenha(u.randomID());
 	}
 
 	public static Usuario selectUsuario() {
-		UsuarioDAO dao = new UsuarioDAOImplementation();
 		Usuario u = new Usuario();
 		Random r = new Random();
 		u.setIdUsuario(r.nextInt(4) + 1);
@@ -48,7 +43,6 @@ public class UsuarioDAOTest {
 	}
 
 	public static Usuario loginUsuario() {
-		UsuarioDAO dao = new UsuarioDAOImplementation();
 		Usuario u = new Usuario();
 		u.setEmail("GABRIEL.FATEC@HOTMAIL.COM");
 		u.setSenha("GABRIEL");

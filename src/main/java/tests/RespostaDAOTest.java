@@ -8,6 +8,9 @@ import dao.RespostaDAOImplementation;
 import model.Resposta;
 
 public class RespostaDAOTest {
+	static RespostaDAO dao = new RespostaDAOImplementation();
+	static Random rnd = new Random();
+
 	public static void main(String[] args) {
 		// Insert de Resposta
 		System.out.println("Teste de insert de resposta: " + insertResposta());
@@ -23,33 +26,23 @@ public class RespostaDAOTest {
 	}
 
 	public static boolean insertResposta() {
-		RespostaDAO dao = new RespostaDAOImplementation();
 		RespostaTest r = new RespostaTest();
-		Random rnd = new Random();
 		return dao.adicionarResposta(r.insertResposta(), rnd.nextInt(5) + 1, rnd.nextInt(5) + 1);
 	}
 
 	public static List<Resposta> selectRespostas() {
-		RespostaDAO dao = new RespostaDAOImplementation();
-		Random rnd = new Random();
 		return dao.buscarRespostas(rnd.nextInt(5) + 1);
 	}
 
-	public static boolean adicionaRank() {
-		RespostaDAO dao = new RespostaDAOImplementation();
-		Random rnd = new Random();
+	public static boolean adicionaRank() {		
 		return dao.adicionaRank(rnd.nextInt(5) + 1);
 	}
 
-	public static boolean alteraFlagAluno() {
-		RespostaDAO dao = new RespostaDAOImplementation();
-		Random rnd = new Random();
+	public static boolean alteraFlagAluno() {		
 		return dao.alteraFlagAluno(rnd.nextInt(5) + 1);
 	}
 
-	public static boolean alterarFlagProf() {
-		RespostaDAO dao = new RespostaDAOImplementation();
-		Random rnd = new Random();
+	public static boolean alterarFlagProf() {		
 		return dao.alteraFlagProfessor(rnd.nextInt(5) + 1);
 	}
 }

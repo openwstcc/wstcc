@@ -25,9 +25,7 @@ public class MateriaControllerTest {
 		return control.buscarMateriasUsuario(usuario);
 	}
 
-	public static String selectMateriasDuvida() {
-		MateriaControl control = new MateriaControl();
-		Gson gson = new Gson();
+	public static String selectMateriasDuvida() {		
 		return null;
 	}
 }

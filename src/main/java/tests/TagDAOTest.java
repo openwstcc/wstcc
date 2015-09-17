@@ -8,6 +8,8 @@ import dao.TagDAOImplementation;
 import model.Tag;
 
 public class TagDAOTest {
+	static TagDAO dao = new TagDAOImplementation();
+
 	public static void main(String[] args) {
 		// Insert de Tag
 		System.out.println("Teste de insert de tag: " + insertTag());
@@ -25,13 +27,11 @@ public class TagDAOTest {
 	}
 
 	public static boolean insertTag() {
-		TagDAO dao = new TagDAOImplementation();
 		TagTest t = new TagTest();
 		return dao.inserirTag(t.randomTag());
 	}
 
 	public static Tag selectTag() {
-		TagDAO dao = new TagDAOImplementation();
 		Random r = new Random();
 		Tag t = new Tag();
 		t.setIdTag(r.nextInt(3) + 1);
@@ -44,7 +44,6 @@ public class TagDAOTest {
 	}
 
 	public static List<Tag> selectTagsDuvida() {
-		TagDAO dao = new TagDAOImplementation();
 		Random r = new Random();
 		return dao.buscarTagsDuvida(r.nextInt(3) + 1);
 	}
