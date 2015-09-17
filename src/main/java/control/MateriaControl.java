@@ -9,13 +9,12 @@ import dao.MateriaDAOImplementation;
 import model.Duvida;
 import model.Materia;
 import model.Usuario;
-import util.GsonObjects;
 
 public class MateriaControl {
-	GsonObjects gsonObjects = new GsonObjects();
+	private Gson objects = new Gson();
 	
 	public String buscarMateriasDuvida(String jsonDuvida) {
-		Duvida d = gsonObjects.duvidaFromJson(jsonDuvida);		
+		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);		
 		MateriaDAO dao = new MateriaDAOImplementation();		
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
 		Gson gson = new GsonBuilder().create();
@@ -24,7 +23,7 @@ public class MateriaControl {
 	}
 
 	public String buscarMateriasUsuario(String jsonUsuario) {
-		Usuario u = gsonObjects.usuarioFromJson(jsonUsuario);
+		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		MateriaDAO dao = new MateriaDAOImplementation();
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
