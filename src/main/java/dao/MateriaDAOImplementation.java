@@ -92,4 +92,39 @@ public class MateriaDAOImplementation implements MateriaDAO {
 
 	}
 
+	@Override
+	public boolean adicionarMateriaUsuario(int id_usuario, int id_materia) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
+			pstmt.setInt(1, id_materia);
+			pstmt.setInt(2, id_usuario);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir relação de Materia e Usuario.");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean removerMateriaUsuario(int id_usuario) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_USUARIO WHERE ID_USUARIO=?");		
+			pstmt.setInt(1, id_usuario);
+			pstmt.executeUpdate();
+			pstmt.close();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao remover relação de Materias com Usuario.");
+			e.printStackTrace();
+			return false;
+		}		
+	}
+
 }

@@ -67,11 +67,14 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con;
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_DUVIDA WHERE ID_DUVIDA = " + id_duvida);
+			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+			pstmt.setInt(1,id_duvida);
 			pstmt.executeQuery();
-			pstmt = con.prepareStatement("DELETE FROM DUVIDA_TAG  WHERE ID_DUVIDA = " + id_duvida);
+			pstmt = con.prepareStatement("DELETE FROM DUVIDA_TAG  WHERE ID_DUVIDA=?");
+			pstmt.setInt(1,id_duvida);
 			pstmt.executeQuery();
-			pstmt = con.prepareStatement("DELETE FROM DUVIDA WHERE ID_DUVIDA" + id_duvida);
+			pstmt = con.prepareStatement("DELETE FROM DUVIDA WHERE ID_DUVIDA=?");
+			pstmt.setInt(1,id_duvida);
 			pstmt.executeQuery();
 			pstmt.close();
 			System.out.println("Duvida removida com sucesso!");
@@ -170,8 +173,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 	}
 
 	@Override
-	public boolean validaDuvida(int id_duvida) {
-		Boolean valida = false;
+	public boolean validaDuvida(int id_duvida) {		
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("select COUNT(id_duvida) as totalDeRespostas "
@@ -179,18 +181,19 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			pstmt.setInt(1, id_duvida);
 			ResultSet rs = pstmt.executeQuery();
 			int totalResposta = rs.getInt("totalDeRespostas");
-			if (totalResposta == 0) {
-				valida = true;
-				/*
-				 * Se totalResposta for igual a 0, portanto a Duvida nao possui
-				 * resposta e ela poderá ser removida
-				 */
-			}
+			/*
+			 * Se totalResposta for igual a 0, portanto a Duvida nao possui
+			 * resposta e ela poderá ser removida
+			 */
+			if (totalResposta == 0) 
+				return true;
+				
+			return false;
 		} catch (SQLException e) {
 			System.out.println("Erro ao validar Duvida.");
 			System.out.println(e);
-		}
-		return valida;
+			return false;
+		}		
 	}
 
 }
