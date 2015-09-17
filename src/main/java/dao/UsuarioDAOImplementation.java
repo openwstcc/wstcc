@@ -14,7 +14,7 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"INSERT INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, SENHA) "
+					"INSERT IGNORE INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, SENHA) "
 							+ " VALUES (?,?,?,?,?,?,MD5(?));");
 			pstmt.setString(1, u.getNome());
 			pstmt.setString(2, u.getSobrenome());
