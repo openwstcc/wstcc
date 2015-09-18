@@ -47,7 +47,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("SELECT M.ID_MATERIA, M.MATERIA, M.SEMESTRE FROM MATERIA_USUARIO AS MA "
-							+ "INNER JOIN USUARIO U ON MA.ID_USUARIO=U.ID_USUARIO INNER JOIN MATERIA M ON MA.ID_MATERIA=M.ID_MATERIA"
+							+ "INNER JOIN USUARIO U ON MA.ID_USUARIO=U.ID_USUARIO INNER JOIN MATERIA M ON MA.ID_MATERIA=M.ID_MATERIA "
 							+ "WHERE U.ID_USUARIO=?");
 			pstmt.setInt(1, id_usuario);
 			ResultSet rs = pstmt.executeQuery();
