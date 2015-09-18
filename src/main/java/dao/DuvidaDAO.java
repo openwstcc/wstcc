@@ -12,8 +12,9 @@ import java.util.List;
  */
 public interface DuvidaDAO {
 	/**
-	 * Método para inserção de novas dúvidas informando usuário, materia e tags
-	 * relacionadas.
+	 * Método para inserção de novas dúvidas informando Usuário, materia e tags
+	 * relacionadas. Este método também irá adicionar uma relação entre Duvida e
+	 * Tag, e Materia e tag.
 	 * 
 	 * @param d
 	 *            Dúvida

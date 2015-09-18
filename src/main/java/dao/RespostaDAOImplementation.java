@@ -9,6 +9,12 @@ import java.util.List;
 
 import model.Resposta;
 
+/**
+ * DAO (Data Access Object) responsável pelos métodos de Respostas.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class RespostaDAOImplementation implements RespostaDAO {
 
 	@Override

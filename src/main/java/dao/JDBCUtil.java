@@ -4,6 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Java Database Connection para conexão entre a aplicação e o Banco de Dados.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ * 
+ */
 public class JDBCUtil {
 	private final static String JDBC_CLASS = "com.mysql.jdbc.Driver";
 	private final static String JDBC_URL = "jdbc:mysql://localhost:3306/TCCSERVER";

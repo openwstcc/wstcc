@@ -9,6 +9,12 @@ import java.util.List;
 
 import model.Tag;
 
+/**
+ * DAO (Data Access Object) responsável pelos métodos de Tag.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ * 
+ */
 public class TagDAOImplementation implements TagDAO {
 
 	@Override
