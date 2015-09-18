@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Entity Materia responsável pelo gerenciamento de atributos de matérias.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class Materia {
 	private int idMateria;
 	private String materia;

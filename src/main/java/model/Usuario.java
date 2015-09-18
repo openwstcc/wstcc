@@ -2,6 +2,12 @@ package model;
 
 import java.util.Date;
 
+/**
+ * Entity Usuario responsável pelo gerenciamento de atributos de usuários.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class Usuario {
 	private int idUsuario;
 	private String perfil;

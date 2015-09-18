@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Entity Tag responsável pelo gerenciamento de atributos de tag.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class Tag {
 	private int idTag;
 	private String nome;

@@ -2,6 +2,12 @@ package model;
 
 import java.util.Date;
 
+/**
+ * Entity Resposta responsável pelo gerenciamento de atributos de respostas.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class Resposta {
 	private int idResposta;
 	private String resposta;

@@ -2,6 +2,12 @@ package model;
 
 import java.util.Date;
 
+/**
+ * Entity Duvida responsável pelo gerenciamento de atributos de dúvidas.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class Duvida {
 	private int idDuvida;
 	private String titulo;
