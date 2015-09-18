@@ -1,25 +1,31 @@
 package control;
 
-import com.google.gson.JsonObject;
-
+/**
+ * Duvida Controller responsável pelos métodos de dúvidas. Estes métodos são
+ * disponibilizados a partir do Webservice e permitem a integração entre o
+ * sistema Mobile e o Banco de Dados.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ * 
+ */
 public class DuvidaControl {
-	public void adicionarDuvida(JsonObject duvida){
-		
+	public boolean adicionarDuvida(String jsonDuvida) {
+		return false;
 	}
-	
-	public void alterarDuvida(JsonObject duvida){
-		
+
+	public boolean alterarDuvida(String jsonDuvida) {
+		return false;
 	}
-	
-	public JsonObject buscarDuvidasMateria(){
+
+	public String buscarDuvidasMateria() {
 		return null;
 	}
-	
-	public JsonObject buscarDuvidasUsuario(){
+
+	public String buscarDuvidasUsuario() {
 		return null;
 	}
-	
-	public JsonObject buscarDuvidaTags(){
+
+	public String buscarDuvidaTags() {
 		return null;
 	}
 }

@@ -1,23 +1,27 @@
 package control;
 
-import com.google.gson.JsonObject;
-
+/**
+ * Usuario Controller responsável pelos métodos de usuários. Estes métodos são
+ * disponibilizados a partir do Webservice e permitem a integração entre o
+ * sistema Mobile e o Banco de Dados.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ * 
+ */
 public class UsuarioControl {
-	
-	public void inserirUsuario(JsonObject usuario) {
-		
+	public boolean inserirUsuario(String jsonUsuario) {
+		return false;
 	}
 
-	public void alterarUsuario(JsonObject usuario) {
-		
+	public boolean alterarUsuario(String jsonUsuario) {
+		return false;
 	}
 	
-	public void alterarSenha(JsonObject usuario) {
-		
+	public boolean alterarSenha(String jsonUsuario) {
+		return false;
 	}
 
-	public JsonObject buscarUsuarios() {
-		
+	public String buscarUsuarios() {		
 		return null;
 	}
 

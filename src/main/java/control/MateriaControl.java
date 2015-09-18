@@ -10,12 +10,21 @@ import model.Duvida;
 import model.Materia;
 import model.Usuario;
 
+/**
+ * Materia Controller responsável pelos métodos de matérias. Estes métodos são
+ * disponibilizados a partir do Webservice e permitem a integração entre o
+ * sistema Mobile e o Banco de Dados.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ * 
+ */
 public class MateriaControl {
+
 	private Gson objects = new Gson();
-	MateriaDAO dao = new MateriaDAOImplementation();		
-	
+	MateriaDAO dao = new MateriaDAOImplementation();
+
 	public String buscarMateriasDuvida(String jsonDuvida) {
-		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);				
+		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(materias);
@@ -23,7 +32,7 @@ public class MateriaControl {
 	}
 
 	public String buscarMateriasUsuario(String jsonUsuario) {
-		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);		
+		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(materias);

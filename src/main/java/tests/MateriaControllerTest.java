@@ -36,7 +36,7 @@ public class MateriaControllerTest {
 	public static String selectMateriasDuvida() {
 		Duvida d = new Duvida();
 		Random r = new Random();
-		d.setIdDuvida(r.nextInt(5)+1);
+		d.setIdDuvida(r.nextInt(5) + 1);
 		String duvida = gson.toJson(d);
 		System.out.println("Duvida JSON: " + duvida);
 		return control.buscarMateriasDuvida(duvida);
