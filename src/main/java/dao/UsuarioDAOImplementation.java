@@ -6,6 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Usuario;
 
+/**
+ * DAO (Data Access Object) responsável pelos métodos de Usuário.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class UsuarioDAOImplementation implements UsuarioDAO {
 
 	@Override

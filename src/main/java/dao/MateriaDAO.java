@@ -13,7 +13,7 @@ import model.Materia;
  */
 public interface MateriaDAO {
 	/**
-	 * Método para relacionamento de Matérias e Usuários.
+	 * Método de inserção de Matérias informando Usuários.
 	 * 
 	 * @param id_usuario
 	 *            ID do Usuário relacionado.

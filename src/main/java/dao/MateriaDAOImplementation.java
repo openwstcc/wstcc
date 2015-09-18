@@ -10,7 +10,7 @@ import java.util.List;
 import model.Materia;
 
 /**
- * Interface DAO (Data Access Object) responsável pelos métodos de Matérias.
+ * DAO (Data Access Object) responsável pelos métodos de Matérias.
  * 
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  *
