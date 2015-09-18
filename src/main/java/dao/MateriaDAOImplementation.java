@@ -9,6 +9,12 @@ import java.util.List;
 
 import model.Materia;
 
+/**
+ * Interface DAO (Data Access Object) responsável pelos métodos de Matérias.
+ * 
+ * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
+ *
+ */
 public class MateriaDAOImplementation implements MateriaDAO {
 
 	@Override
@@ -43,7 +49,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 					.prepareStatement("SELECT M.ID_MATERIA, M.MATERIA, M.SEMESTRE FROM MATERIA_USUARIO AS MA "
 							+ "INNER JOIN USUARIO U ON MA.ID_USUARIO=U.ID_USUARIO INNER JOIN MATERIA M ON MA.ID_MATERIA=M.ID_MATERIA"
 							+ "WHERE U.ID_USUARIO=?");
-			pstmt.setInt(1,  id_usuario);
+			pstmt.setInt(1, id_usuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Materia> materias = new ArrayList<Materia>();
 			while (rs.next()) {
@@ -71,7 +77,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 			PreparedStatement pstmt = con
 					.prepareStatement("SELECT M.ID_MATERIA, M.MATERIA, M.SEMESTRE FROM MATERIA AS M "
 							+ "INNER JOIN MATERIA_DUVIDA MD ON M.ID_MATERIA=MD.ID_MATERIA WHERE MD.ID_DUVIDA=?");
-			pstmt.setInt(1,  id_duvida);
+			pstmt.setInt(1, id_duvida);
 			ResultSet rs = pstmt.executeQuery();
 			List<Materia> materias = new ArrayList<Materia>();
 			while (rs.next()) {
@@ -82,7 +88,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 				materias.add(m);
 			}
 			pstmt.close();
-			return materias; 
+			return materias;
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar lista de Matérias por dúvida");
@@ -97,7 +103,8 @@ public class MateriaDAOImplementation implements MateriaDAO {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
+			PreparedStatement pstmt = con
+					.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
 			pstmt.setInt(1, id_materia);
 			pstmt.setInt(2, id_usuario);
 			pstmt.executeUpdate();
@@ -115,7 +122,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_USUARIO WHERE ID_USUARIO=?");		
+			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_USUARIO WHERE ID_USUARIO=?");
 			pstmt.setInt(1, id_usuario);
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -124,7 +131,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 			System.out.println("Erro ao remover relação de Materias com Usuario.");
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
 
 }
