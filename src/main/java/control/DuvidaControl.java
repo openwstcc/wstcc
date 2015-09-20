@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import dao.DuvidaDAOImplementation;
 import model.Duvida;
+import model.DuvidaMateria;
 import model.Materia;
 import model.Tag;
 import model.Usuario;
@@ -26,8 +27,12 @@ public class DuvidaControl {
 	DuvidaDAO dao = new DuvidaDAOImplementation();
 
 	public boolean adicionarDuvida(String jsonDuvida) {
-		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
-		int idUsuario = Integer.parseInt(jsonDuvida,);
+		DuvidaMateria dm = objects.fromJson(jsonDuvida, DuvidaMateria.class);
+		Duvida d = dm.getD();
+		int idUsuario = dm.getIdUsuario();
+		List<Materia> materias = dm.getMaterias();
+		List<Tag> tags = dm.getTags();
+		dao.adicionarDuvida(d, idUsuario, materias, tags);
 
 		return true;
 	}
