@@ -19,22 +19,24 @@ public class TagDAOImplementation implements TagDAO {
 
 	@Override
 	public List<Integer> inserirTag(String[] tags) {
-		List<Integer> ids = new ArrayList<Integer>();;
+		List<Integer> ids = new ArrayList<Integer>();
+		;
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt;
-			
+
 			for (String tag : tags) {
 				pstmt = con.prepareStatement("INSERT IGNORE INTO TAG (NOME) VALUES (?)");
 				pstmt.setString(1, tag);
 				pstmt.executeUpdate();
-				pstmt.close();
-				pstmt = con.prepareStatement("SELECT LAST_INSERT_ID()");
+
+				pstmt = con.prepareStatement("SELECT ID_TAG FROM TAG WHERE NOME=(?)");
+				pstmt.setString(1, tag);
 				ResultSet rs = pstmt.executeQuery();
-				if(rs.next())
-					ids.add(rs.getInt("LAST_INSERT_ID()"));
-			}					
+				if (rs.next())
+					ids.add(rs.getInt("ID_TAG"));
+			}
 			return ids;
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir Tag.");
