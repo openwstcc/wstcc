@@ -1,10 +1,16 @@
 package control;
 
+import java.util.List;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import dao.DuvidaDAOImplementation;
 import model.Duvida;
 import model.JsonDuvida;
+import model.Materia;
+import model.Tag;
+import model.Usuario;
 import dao.DuvidaDAO;
 
 /**
@@ -33,19 +39,27 @@ public class DuvidaControl {
 		return dao.adicionarDuvida(d, idUsuario, materias, tags);
 	}
 
-	public boolean alterarDuvida(String jsonDuvida) {
-		return false;
+	public String buscarDuvidasMateria(String jsonMateria) {
+		Materia m = objects.fromJson(jsonMateria, Materia.class);
+		List<Duvida> duvidas = dao.buscarDuvidasMateria(m.getIdMateria());
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return json;	
 	}
 
-	public String buscarDuvidasMateria() {
-		return null;
+	public String buscarDuvidasUsuario(String jsonUsuario) {
+		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
+		List<Duvida> duvidas = dao.buscarDuvidasUsuario(u.getIdUsuario());
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return json;
 	}
 
-	public String buscarDuvidasUsuario() {
-		return null;
-	}
-
-	public String buscarDuvidaTags() {
-		return null;
+	public String buscarDuvidaTag(String jsonTag) {
+		Tag t = objects.fromJson(jsonTag, Materia.class);
+		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return json;
 	}
 }
