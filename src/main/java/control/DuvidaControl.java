@@ -15,7 +15,7 @@ import dao.DuvidaDAO;
 
 /**
  * Duvida Controller responsável pelos métodos de dúvidas. Estes métodos são
- * disponibilizados a partir do Webservice e permitem a integração entre o
+ * disponibilizados a partir de Webservices e permitem a integração entre o
  * sistema Mobile e o Banco de Dados.
  * 
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
@@ -35,8 +35,15 @@ public class DuvidaControl {
 		d.setDataCriacao(temp.getDataCriacao());
 		int idUsuario = temp.getIdUsuario();
 		int[] materias = temp.getMaterias();
-		int[] tags = temp.getTags();
-		return dao.adicionarDuvida(d, idUsuario, materias, tags);
+
+		if (temp.getTags() == null) {
+			TagControl tagController = new TagControl();
+			String[] tags = temp.getTags();
+			int[] idsTags = tagController.inserirTags(tags);
+			return dao.adicionarDuvida(d, idUsuario, materias, idsTags);
+		} else {
+			return dao.adicionarDuvida(d, idUsuario, materias, null);
+		}		
 	}
 
 	public String buscarDuvidasMateria(String jsonMateria) {
@@ -44,7 +51,7 @@ public class DuvidaControl {
 		List<Duvida> duvidas = dao.buscarDuvidasMateria(m.getIdMateria());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;	
+		return json;
 	}
 
 	public String buscarDuvidasUsuario(String jsonUsuario) {

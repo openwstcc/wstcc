@@ -18,15 +18,15 @@ import model.Resposta;
 public class RespostaDAOImplementation implements RespostaDAO {
 
 	@Override
-	public boolean adicionarResposta(Resposta r, int id_duvida, int id_usuario) {
+	public boolean adicionarResposta(Resposta r, int idDuvida, int idUsuario) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
 					"INSERT INTO RESPOSTA (ID_USUARIO, ID_DUVIDA, RESPOSTA, RANK, FLAG_PROF, FLAG_ALUNO, DATA_CRIACAO) "
 							+ " VALUES (?,?,?,?,?,?,?);");
-			pstmt.setInt(1, id_usuario);
-			pstmt.setInt(2, id_duvida);
+			pstmt.setInt(1, idDuvida);
+			pstmt.setInt(2, idDuvida);
 			pstmt.setString(3, r.getResposta());
 			pstmt.setInt(4, r.getRank());
 			pstmt.setBoolean(5, r.isFlagProfessor());
@@ -44,13 +44,13 @@ public class RespostaDAOImplementation implements RespostaDAO {
 	}
 
 	@Override
-	public List<Resposta> buscarRespostas(int id_duvida) {
+	public List<Resposta> buscarRespostas(int idDuvida) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
 					"SELECT RESPOSTA, DATA_CRIACAO, FLAG_PROF, FLAG_ALUNO, RANK	 FROM RESPOSTA WHERE ID_DUVIDA=?");
-			pstmt.setInt(1, id_duvida);
+			pstmt.setInt(1, idDuvida);
 			ResultSet rs = pstmt.executeQuery();
 			List<Resposta> respostas = new ArrayList<Resposta>();
 
@@ -74,12 +74,12 @@ public class RespostaDAOImplementation implements RespostaDAO {
 	}
 
 	@Override
-	public boolean adicionaRank(int id_resposta) {
+	public boolean adicionaRank(int idResposta) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET RANK=RANK+1 WHERE ID_RESPOSTA=?");
-			pstmt.setInt(1, id_resposta);
+			pstmt.setInt(1, idResposta);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;
@@ -91,12 +91,12 @@ public class RespostaDAOImplementation implements RespostaDAO {
 	}
 
 	@Override
-	public boolean alteraFlagAluno(int id_resposta) {
+	public boolean alteraFlagAluno(int idResposta) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET FLAG_ALUNO=TRUE WHERE ID_RESPOSTA=?");
-			pstmt.setInt(1, id_resposta);
+			pstmt.setInt(1, idResposta);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;
@@ -108,12 +108,12 @@ public class RespostaDAOImplementation implements RespostaDAO {
 	}
 
 	@Override
-	public boolean alteraFlagProfessor(int id_resposta) {
+	public boolean alteraFlagProfessor(int idResposta) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET FLAG_PROF=TRUE WHERE ID_RESPOSTA=?");
-			pstmt.setInt(1, id_resposta);
+			pstmt.setInt(1, idResposta);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;

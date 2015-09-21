@@ -42,14 +42,14 @@ public class MateriaDAOImplementation implements MateriaDAO {
 	}
 
 	@Override
-	public List<Materia> buscarMateriasUsuario(int id_usuario) {
+	public List<Materia> buscarMateriasUsuario(int idUsuario) {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("SELECT M.ID_MATERIA, M.MATERIA, M.SEMESTRE FROM MATERIA_USUARIO AS MA "
 							+ "INNER JOIN USUARIO U ON MA.ID_USUARIO=U.ID_USUARIO INNER JOIN MATERIA M ON MA.ID_MATERIA=M.ID_MATERIA "
 							+ "WHERE U.ID_USUARIO=?");
-			pstmt.setInt(1, id_usuario);
+			pstmt.setInt(1, idUsuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Materia> materias = new ArrayList<Materia>();
 			while (rs.next()) {
@@ -71,13 +71,13 @@ public class MateriaDAOImplementation implements MateriaDAO {
 	}
 
 	@Override
-	public List<Materia> buscarMateriasDuvida(int id_duvida) {
+	public List<Materia> buscarMateriasDuvida(int idDuvida) {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("SELECT M.ID_MATERIA, M.MATERIA, M.SEMESTRE FROM MATERIA AS M "
 							+ "INNER JOIN MATERIA_DUVIDA MD ON M.ID_MATERIA=MD.ID_MATERIA WHERE MD.ID_DUVIDA=?");
-			pstmt.setInt(1, id_duvida);
+			pstmt.setInt(1, idDuvida);
 			ResultSet rs = pstmt.executeQuery();
 			List<Materia> materias = new ArrayList<Materia>();
 			while (rs.next()) {
@@ -99,14 +99,14 @@ public class MateriaDAOImplementation implements MateriaDAO {
 	}
 
 	@Override
-	public boolean adicionarMateriaUsuario(int id_usuario, int id_materia) {
+	public boolean adicionarMateriaUsuario(int idUsuario, int idMateria) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
-			pstmt.setInt(1, id_materia);
-			pstmt.setInt(2, id_usuario);
+			pstmt.setInt(1, idMateria);
+			pstmt.setInt(2, idUsuario);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;
@@ -118,12 +118,12 @@ public class MateriaDAOImplementation implements MateriaDAO {
 	}
 
 	@Override
-	public boolean removerMateriaUsuario(int id_usuario) {
+	public boolean removerMateriaUsuario(int idUsuario) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement("DELETE FROM MATERIA_USUARIO WHERE ID_USUARIO=?");
-			pstmt.setInt(1, id_usuario);
+			pstmt.setInt(1, idUsuario);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;

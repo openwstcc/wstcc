@@ -1,5 +1,10 @@
 package control;
 
+import java.util.List;
+
+import dao.TagDAO;
+import dao.TagDAOImplementation;
+
 /**
  * Tag Controller responsável pelos métodos de tags. Estes métodos são
  * disponibilizados a partir do Webservice e permitem a integração entre o
@@ -9,12 +14,13 @@ package control;
  * 
  */
 public class TagControl {
-	public boolean inserirTag(String jsonTag) {
-		return false;
-	}
+	TagDAO dao = new TagDAOImplementation();
 
-	public String tag() {
-
-		return null;
+	public int[] inserirTags(String[] tags) {
+		List<Integer> temp = dao.inserirTag(tags);
+		int[] ids = new int[temp.size()];
+		for (int i = 0; i < temp.size(); i++)
+			ids[i] = temp.get(i);
+		return ids;
 	}
 }

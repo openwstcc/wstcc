@@ -17,7 +17,7 @@ public class JsonDuvida {
 	private Date dataCriacao;
 	private int idUsuario;
 	private int[] materias;
-	private int[] tags;
+	private String[] tags;
 
 	public int getIdDuvida() {
 		return idDuvida;
@@ -59,11 +59,11 @@ public class JsonDuvida {
 		this.materias = materias;
 	}
 
-	public int[] getTags() {
+	public String[] getTags() {
 		return tags;
 	}
 
-	public void setTags(int[] tags) {
+	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
 

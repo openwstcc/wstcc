@@ -16,50 +16,50 @@ public interface RespostaDAO {
 	 * 
 	 * @param r
 	 *            Reposta
-	 * @param id_duvida
+	 * @param idDuvida
 	 *            ID da Dúvida relacionada.
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usúario Relacionado.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionarResposta(Resposta r, int id_duvida, int id_usuario);
+	public boolean adicionarResposta(Resposta r, int idDuvida, int idUsuario);
 
 	/**
 	 * Método utilizado para buscar todas as Respostas relacionadas a uma
 	 * Dúvida.
 	 * 
-	 * @param id_duvida
+	 * @param idDuvida
 	 *            ID da Dúvida
 	 * @return Lista de Respostas relacionadas com a Dúvida.
 	 */
-	public List<Resposta> buscarRespostas(int id_duvida);
+	public List<Resposta> buscarRespostas(int idDuvida);
 
 	/**
 	 * Método utilizado para adicionar rank a uma reposta.
 	 * 
-	 * @param id_resposta
+	 * @param idResposta
 	 *            ID da Resposta.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionaRank(int id_resposta);
+	public boolean adicionaRank(int idResposta);
 
 	/**
 	 * Método utilizado para alterar Flag de resposta que teve rank acrescido do
 	 * mesmo criador da Dúvida, este sendo um aluno.
 	 * 
-	 * @param id_resposta
+	 * @param idResposta
 	 *            ID da Resposta.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean alteraFlagAluno(int id_resposta);
+	public boolean alteraFlagAluno(int idResposta);
 
 	/**
 	 * Método utilizado para alterar Flag de resposta que teve rank acrescido do
 	 * mesmo criador da Dúvida, este sendo um professor.
 	 * 
-	 * @param id_resposta
+	 * @param idResposta
 	 *            ID da Resposta.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean alteraFlagProfessor(int id_resposta);
+	public boolean alteraFlagProfessor(int idResposta);
 }

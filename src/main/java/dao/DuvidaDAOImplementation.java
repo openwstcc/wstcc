@@ -50,7 +50,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				pstmt.executeUpdate();
 			}
 
-			if (tags.length != 0) {
+			if (tags != null) {
 				for (int idTag : tags) {
 					pstmt = con.prepareStatement(
 							"INSERT INTO DUVIDA_TAG (ID_DUVIDA, ID_TAG) VALUES (LAST_INSERT_ID(),?);");

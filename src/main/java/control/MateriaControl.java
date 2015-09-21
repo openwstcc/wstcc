@@ -12,7 +12,7 @@ import model.Usuario;
 
 /**
  * Materia Controller responsável pelos métodos de matérias. Estes métodos são
- * disponibilizados a partir do Webservice e permitem a integração entre o
+ * disponibilizados a partir de Webservices e permitem a integração entre o
  * sistema Mobile e o Banco de Dados.
  * 
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.

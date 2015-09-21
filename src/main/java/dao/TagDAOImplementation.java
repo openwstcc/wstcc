@@ -18,19 +18,28 @@ import model.Tag;
 public class TagDAOImplementation implements TagDAO {
 
 	@Override
-	public boolean inserirTag(Tag t) {
+	public List<Integer> inserirTag(String[] tags) {
+		List<Integer> ids = new ArrayList<Integer>();;
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("INSERT IGNORE INTO TAG (NOME) VALUES (?)");
-			pstmt.setString(1, t.getNome());
-			pstmt.executeUpdate();
-			pstmt.close();
-			return true;
+			PreparedStatement pstmt;
+			
+			for (String tag : tags) {
+				pstmt = con.prepareStatement("INSERT IGNORE INTO TAG (NOME) VALUES (?)");
+				pstmt.setString(1, tag);
+				pstmt.executeUpdate();
+				pstmt.close();
+				pstmt = con.prepareStatement("SELECT LAST_INSERT_ID()");
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next())
+					ids.add(rs.getInt("LAST_INSERT_ID()"));
+			}					
+			return ids;
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir Tag.");
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 

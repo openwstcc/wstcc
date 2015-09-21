@@ -18,7 +18,7 @@ public interface TagDAO {
 	 *            Tag.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean inserirTag(Tag t);
+	public List<Integer> inserirTag(String[] tags);
 
 	/**
 	 * Método para busca de uma Tag contendo apenas um ID.

@@ -15,23 +15,23 @@ public interface MateriaDAO {
 	/**
 	 * Método de inserção de Matérias informando Usuários.
 	 * 
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usuário relacionado.
-	 * @param id_materia
+	 * @param idMateria
 	 *            ID da Matéria relacionada
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionarMateriaUsuario(int id_usuario, int id_materia);
+	public boolean adicionarMateriaUsuario(int idUsuario, int idMateria);
 
 	/**
 	 * Método para remoção de todas as máterias relacionadas com um usuário.
 	 * Utilizado para atualização de dados de Matérias.
 	 * 
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usuário Relacionado.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean removerMateriaUsuario(int id_usuario);
+	public boolean removerMateriaUsuario(int idUsuario);
 
 	/**
 	 * Método utilizado para buscar todas as Máterias.
@@ -43,18 +43,18 @@ public interface MateriaDAO {
 	/**
 	 * Método utilizado para buscar todas as Materias relacionadas a um Usuário
 	 *
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usuário Relacionado.
 	 * @return Lista de todas as Matérias relacionadas a um Usuário.
 	 */
-	public List<Materia> buscarMateriasUsuario(int id_usuario);
+	public List<Materia> buscarMateriasUsuario(int idUsuario);
 
 	/**
 	 * Método utilizado para buscar todas as Matérias relacionadas a uma Dúvida.
 	 * 
-	 * @param id_duvida
+	 * @param idDuvida
 	 *            ID da Dúvida Relacionada.
 	 * @return Lista de todas as Matérias relacionadas a uma Dúvida.
 	 */
-	public List<Materia> buscarMateriasDuvida(int id_duvida);
+	public List<Materia> buscarMateriasDuvida(int idDuvida);
 }
