@@ -8,6 +8,7 @@ import java.util.Date;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  *
  */
+
 public class Duvida {
 	private int idDuvida;
 	private String titulo;
@@ -47,20 +48,11 @@ public class Duvida {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public String getCriador() {
-		return criador;
-	}
-
-	public void setCriador(String criador) {
-		this.criador = criador;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((conteudo == null) ? 0 : conteudo.hashCode());
-		result = prime * result + ((criador == null) ? 0 : criador.hashCode());
 		result = prime * result + ((dataCriacao == null) ? 0 : dataCriacao.hashCode());
 		result = prime * result + idDuvida;
 		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
@@ -81,11 +73,6 @@ public class Duvida {
 				return false;
 		} else if (!conteudo.equals(other.conteudo))
 			return false;
-		if (criador == null) {
-			if (other.criador != null)
-				return false;
-		} else if (!criador.equals(other.criador))
-			return false;
 		if (dataCriacao == null) {
 			if (other.dataCriacao != null)
 				return false;
@@ -103,8 +90,16 @@ public class Duvida {
 
 	@Override
 	public String toString() {
-		return "Duvida [idDuvida=" + idDuvida + ", titulo=" + titulo + ", conteudo=" + conteudo + ", criador=" + criador
+		return "Duvida [idDuvida=" + idDuvida + ", titulo=" + titulo + ", conteudo=" + conteudo 
 				+ ", dataCriacao=" + dataCriacao + "]";
+	}
+
+	public String getCriador() {
+		return criador;
+	}
+
+	public void setCriador(String criador) {
+		this.criador = criador;
 	}
 
 }

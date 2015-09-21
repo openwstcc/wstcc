@@ -1,8 +1,6 @@
 package dao;
 
 import model.Duvida;
-import model.Materia;
-import model.Tag;
 import java.util.List;
 
 /**
@@ -18,59 +16,59 @@ public interface DuvidaDAO {
 	 * 
 	 * @param d
 	 *            Dúvida
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usuário relacionado.
-	 * @param m
-	 *            Lista de Máterias.
-	 * @param t
-	 *            Lista de Tags relacionadas.
+	 * @param materias
+	 *            Array de ids de Máterias relacionadas.
+	 * @param tags
+	 *            Array de ids de Tags relacionadas. Não é obrigatório.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionarDuvida(Duvida d, int id_usuario, List<Materia> m, List<Tag> t);
+	public boolean adicionarDuvida(Duvida d, int idUsuario, int[] materias, int[] tags);
 
 	/**
 	 * Método para remoção de dúvida.
 	 * 
-	 * @param id_duvida
+	 * @param idDuvida
 	 *            ID da Dúvida a ser removida.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean removerDuvida(int id_duvida);
+	public boolean removerDuvida(int idDuvida);
 
 	/**
 	 * Método utilizado para remover dúvidas. Método para verificar se existem
 	 * respostas relacionadas a dúvida.
 	 * 
-	 * @param id_duvida
+	 * @param idDuvida
 	 *            ID da Dúvida a ser verificada.
 	 * @return Se a resposta pode ser remoivda ou não.
 	 */
-	public boolean validaDuvida(int id_duvida);
+	public boolean validaDuvida(int idDuvida);
 
 	/**
 	 * Método utilizado para buscar todas as Dúvidas relacionadas a uma Matéria.
 	 * 
-	 * @param id_materia
+	 * @param idMateria
 	 *            ID da Materia relacionada.
 	 * @return Lista de Dúvidas relacionadas com a Máteria.
 	 */
-	public List<Duvida> buscarDuvidasMateria(int id_materia);
+	public List<Duvida> buscarDuvidasMateria(int idMateria);
 
 	/**
 	 * Método utilizado para buscar todas as Dúvidas relacionadas a um Usuário.
 	 * 
-	 * @param id_usuario
+	 * @param idUsuario
 	 *            ID do Usuário relacionado.
 	 * @return Lista de Dúvidas relacionadas com o Usuário.
 	 */
-	public List<Duvida> buscarDuvidasUsuario(int id_usuario);
+	public List<Duvida> buscarDuvidasUsuario(int idUsuario);
 
 	/**
 	 * Método utilizado para buscar todas as Dúvidas relacionados a uma Tag.
 	 * 
-	 * @param id_tag
+	 * @param idTag
 	 *            ID da Tag relacionada.
 	 * @return Lista de Dúvidas relacionadas com a Tag.
 	 */
-	public List<Duvida> buscarDuvidasTags(int id_tag);
+	public List<Duvida> buscarDuvidasTags(int idTag);
 }

@@ -1,16 +1,10 @@
 package control;
 
-import java.util.List;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import dao.DuvidaDAOImplementation;
 import model.Duvida;
-import model.DuvidaMateria;
-import model.Materia;
-import model.Tag;
-import model.Usuario;
+import model.JsonDuvida;
 import dao.DuvidaDAO;
 
 /**
@@ -27,14 +21,16 @@ public class DuvidaControl {
 	DuvidaDAO dao = new DuvidaDAOImplementation();
 
 	public boolean adicionarDuvida(String jsonDuvida) {
-		DuvidaMateria dm = objects.fromJson(jsonDuvida, DuvidaMateria.class);
-		Duvida d = dm.getD();
-		int idUsuario = dm.getIdUsuario();
-		List<Materia> materias = dm.getMaterias();
-		List<Tag> tags = dm.getTags();
-		dao.adicionarDuvida(d, idUsuario, materias, tags);
-
-		return true;
+		JsonDuvida temp = objects.fromJson(jsonDuvida, JsonDuvida.class);
+		Duvida d = new Duvida();
+		d.setIdDuvida(temp.getIdDuvida());
+		d.setTitulo(temp.getTitulo());
+		d.setConteudo(temp.getConteudo());
+		d.setDataCriacao(temp.getDataCriacao());
+		int idUsuario = temp.getIdUsuario();
+		int[] materias = temp.getMaterias();
+		int[] tags = temp.getTags();
+		return dao.adicionarDuvida(d, idUsuario, materias, tags);
 	}
 
 	public boolean alterarDuvida(String jsonDuvida) {
