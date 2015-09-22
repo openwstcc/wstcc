@@ -12,7 +12,7 @@ public class TagDAOTest {
 
 	public static void main(String[] args) {
 		// Insert de Tag
-		System.out.println("Teste de insert de tag: " + insertTag());
+		System.out.println("Teste de insert de tag: " + insertTag().toString());
 		// Select de Tag
 		System.out.print("Teste de select de tag: ");
 		System.out.println(selectTag());
@@ -26,9 +26,10 @@ public class TagDAOTest {
 			System.out.println(t);
 	}
 
-	public static boolean insertTag() {
-		TagTest t = new TagTest();
-		return dao.inserirTag(t.randomTag());
+	public static List<Integer> insertTag() {
+		String[] nomes = {"Tag1", "Tag2", "Tag3"};
+		List<Integer> ids = dao.inserirTag(nomes);		
+		return ids; 
 	}
 
 	public static Tag selectTag() {
