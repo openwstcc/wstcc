@@ -6,8 +6,8 @@ import com.google.gson.GsonBuilder;
 
 import dao.MateriaDAO;
 import dao.MateriaDAOImplementation;
+import json.JsonMateria;
 import model.Duvida;
-import model.JsonMateria;
 import model.Materia;
 import model.Usuario;
 

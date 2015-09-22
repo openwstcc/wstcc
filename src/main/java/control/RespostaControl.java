@@ -7,8 +7,8 @@ import com.google.gson.GsonBuilder;
 
 import dao.RespostaDAO;
 import dao.RespostaDAOImplementation;
+import json.JsonResposta;
 import model.Duvida;
-import model.JsonResposta;
 import model.Resposta;
 
 /**

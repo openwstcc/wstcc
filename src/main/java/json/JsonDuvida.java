@@ -1,4 +1,4 @@
-package model;
+package json;
 
 import java.util.Date;
 
