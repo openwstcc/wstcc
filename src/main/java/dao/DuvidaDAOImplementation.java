@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import model.Duvida;
@@ -18,16 +17,6 @@ import model.Duvida;
  */
 public class DuvidaDAOImplementation implements DuvidaDAO {
 
-	/**
-	 * Método utilizado para pegar informações de data do momento de inserção da
-	 * dúvida.
-	 * 
-	 * @return Dia Atual
-	 */
-	public Date getToday() {
-		return new Date();
-	}
-
 	@Override
 	public boolean adicionarDuvida(Duvida d, int idUsuario, int[] materias, int[] tags) {
 
@@ -39,7 +28,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			pstmt.setInt(1, idUsuario);
 			pstmt.setString(2, d.getTitulo());
 			pstmt.setString(3, d.getConteudo());
-			java.sql.Date dataCriacao = new java.sql.Date(getToday().getTime());
+			java.sql.Date dataCriacao = new java.sql.Date(d.getDataCriacao().getTime());
 			pstmt.setDate(4, dataCriacao);
 			pstmt.executeUpdate();
 
