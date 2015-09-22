@@ -12,6 +12,8 @@ import model.Materia;
  *
  */
 public interface MateriaDAO {
+	public boolean atualiarMateriasUsuario(int idUsuario, int[] idMaterias);
+	
 	/**
 	 * Método de inserção de Matérias informando Usuários.
 	 * 

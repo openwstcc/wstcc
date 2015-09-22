@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import dao.MateriaDAO;
 import dao.MateriaDAOImplementation;
 import model.Duvida;
+import model.JsonMateria;
 import model.Materia;
 import model.Usuario;
 
@@ -46,4 +47,10 @@ public class MateriaControl {
 		return json;
 	}
 
+	public boolean atualizarMaterias(String jsonMateria){
+		JsonMateria temp = objects.fromJson(jsonMateria, JsonMateria.class);
+		int idUsuario = temp.getIdUsuario();
+		int[] idMaterias = temp.getIdMaterias();
+		return dao.atualiarMateriasUsuario(idUsuario, idMaterias);
+	}
 }

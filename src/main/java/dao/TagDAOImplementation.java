@@ -20,7 +20,6 @@ public class TagDAOImplementation implements TagDAO {
 	@Override
 	public List<Integer> inserirTag(String[] tags) {
 		List<Integer> ids = new ArrayList<Integer>();
-		;
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();

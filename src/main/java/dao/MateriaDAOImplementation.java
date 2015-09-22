@@ -134,4 +134,25 @@ public class MateriaDAOImplementation implements MateriaDAO {
 		}
 	}
 
+	@Override
+	public boolean atualiarMateriasUsuario(int idUsuario, int[] idMaterias) {
+		Connection con;
+		try {
+			con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt;
+			for (int idMateria : idMaterias) {
+				pstmt = con.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
+				pstmt.setInt(1, idMateria);
+				pstmt.setInt(2, idUsuario);
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Erro ao inserir relação de Materia e Usuario.");
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
