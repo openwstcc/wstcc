@@ -19,6 +19,7 @@ import model.Usuario;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  * 
  */
+
 public class MateriaControl {
 
 	private Gson objects = new Gson();
