@@ -63,7 +63,7 @@ public class DuvidaControl {
 	}
 
 	public String buscarDuvidaTag(String jsonTag) {
-		Tag t = objects.fromJson(jsonTag, Materia.class);
+		Tag t = objects.fromJson(jsonTag, Tag.class);
 		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
