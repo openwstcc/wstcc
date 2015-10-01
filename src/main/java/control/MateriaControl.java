@@ -1,6 +1,11 @@
 package control;
 
 import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,12 +24,14 @@ import model.Usuario;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  * 
  */
-
+@Path("materias")
 public class MateriaControl {
 
 	private Gson objects = new Gson();
 	MateriaDAO dao = new MateriaDAOImplementation();
 
+	@GET
+	@Path("todasDuvida/{jsonDuvida}")
 	public String buscarMateriasDuvida(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
@@ -32,15 +39,19 @@ public class MateriaControl {
 		String json = gson.toJson(materias);
 		return json;
 	}
-
-	public String buscarMateriasUsuario(String jsonUsuario) {
+	
+	@GET
+	@Path("todasUsuario/{jsonUsuario}")
+	public String buscarMateriasUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(materias);
 		return json;
 	}
-
+		
+	@GET
+	@Path("todas")
 	public String buscarMaterias() {
 		List<Materia> materias = dao.buscarTodasMaterias();
 		Gson gson = new GsonBuilder().create();
@@ -48,6 +59,8 @@ public class MateriaControl {
 		return json;
 	}
 
+	@GET
+	@Path("atualizar/{jsonMateria}")
 	public boolean atualizarMaterias(String jsonMateria){
 		JsonMateria temp = objects.fromJson(jsonMateria, JsonMateria.class);
 		int idUsuario = temp.getIdUsuario();
