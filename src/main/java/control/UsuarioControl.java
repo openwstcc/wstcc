@@ -1,7 +1,7 @@
 package control;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -27,8 +27,8 @@ public class UsuarioControl {
 	private Gson objects = new Gson();
 	UsuarioDAO dao = new UsuarioDAOImplementation();
 
-	@PUT
-	@Path("inserirDuvida/{jsonUsuario}")
+	@POST
+	@Path("inserirUsuario/{jsonUsuario}")
 	@Produces("application/json")
 	public boolean inserirUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
@@ -54,7 +54,7 @@ public class UsuarioControl {
 	}
 
 	@GET
-	@Path("todos/{jsonUsuario}")
+	@Path("buscarUsuario/{jsonUsuario}")
 	@Produces("application/json")
 	public String buscarUsuario(@PathParam("jsonUsuario") String jsonUsuario) {		
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);

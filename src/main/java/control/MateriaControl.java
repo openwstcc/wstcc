@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,41 +35,42 @@ public class MateriaControl {
 	@GET
 	@Path("buscarMateriasDuvida/{jsonDuvida}")
 	@Produces("application/json")
-	public String buscarMateriasDuvida(@PathParam("jsonDuvida") String jsonDuvida) {
+	public Response buscarMateriasDuvida(@PathParam("jsonDuvida") String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(materias);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 	
 	@GET
 	@Path("buscarMateriasUsuario/{jsonUsuario}")
 	@Produces("application/json")	
-	public String buscarMateriasUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
+	public Response buscarMateriasUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(materias);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 		
 	@GET
 	@Path("buscarMaterias")
 	@Produces("application/json")
-	public String buscarMaterias() {
+	public Response buscarMaterias() {
 		List<Materia> materias = dao.buscarTodasMaterias();
 		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(materias);
-		return json;
+		String json = gson.toJson(materias);		
+		return Response.status(200).entity(json).build();
 	}
 
 	@GET
-	@Path("atualizar/{jsonMateria}")	
-	public boolean atualizarMaterias(@PathParam("jsonMateria") String jsonMateria){
+	@Path("atualizarMaterias/{jsonMateria}")	
+	public Response atualizarMaterias(@PathParam("jsonMateria") String jsonMateria){
 		JsonMateria temp = objects.fromJson(jsonMateria, JsonMateria.class);
 		int idUsuario = temp.getIdUsuario();
 		int[] idMaterias = temp.getIdMaterias();
-		return dao.atualiarMateriasUsuario(idUsuario, idMaterias);
+		boolean status = dao.atualiarMateriasUsuario(idUsuario, idMaterias);
+		return Response.status(200).entity(status).build();
 	}
 }
