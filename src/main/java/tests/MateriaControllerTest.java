@@ -24,13 +24,13 @@ public class MateriaControllerTest {
 	}
 
 	public static String selectMaterias() {
-		return control.buscarMaterias();
+		return control.buscarMaterias().toString();
 	}
 
 	public static String selectMateriasUsuario() {
 		String usuario = gson.toJson(UsuarioDAOTest.selectUsuario());
 		System.out.println("Usuario JSON: " + usuario);
-		return control.buscarMateriasUsuario(usuario);
+		return control.buscarMateriasUsuario(usuario).toString();
 	}
 
 	public static String selectMateriasDuvida() {
@@ -39,6 +39,6 @@ public class MateriaControllerTest {
 		d.setIdDuvida(r.nextInt(5) + 1);
 		String duvida = gson.toJson(d);
 		System.out.println("Duvida JSON: " + duvida);
-		return control.buscarMateriasDuvida(duvida);
+		return control.buscarMateriasDuvida(duvida).toString();
 	}
 }

@@ -1,10 +1,12 @@
 package control;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,39 +30,40 @@ public class UsuarioControl {
 	UsuarioDAO dao = new UsuarioDAOImplementation();
 
 	@POST
-	@Path("inserirUsuario/{jsonUsuario}")
-	@Produces("application/json")
-	public boolean inserirUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
+	@Path("inserirUsuario")
+	@Consumes("application/json")
+	public Response inserirUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
-		boolean retorno = dao.adicionarUsuario(u);
-		return retorno;
+		boolean retorno = dao.adicionarUsuario(u);		
+		return Response.status(200).entity(retorno).build();
 	}
 
-	@GET
+	@POST
 	@Path("alterarUsuario/{jsonUsuario}")
-	@Produces("application/json")
-	public boolean alterarUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
+	@Consumes("application/json")
+	public Response alterarUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		boolean retorno = dao.alterarUsuario(u);
-		return retorno;
+		return Response.status(200).entity(retorno).build();
 	}
 
-	@GET
-	@Path("alterarSenha/{jsonUsuario}")	
-	public boolean alterarSenha(@PathParam("jsonUsuario") String jsonUsuario) {
+	@POST
+	@Path("alterarSenha")
+	@Consumes("application/json")	
+	public Response alterarSenha(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		boolean retorno = dao.alterarSenha(u);
-		return retorno;
+		return Response.status(200).entity(retorno).build();
 	}
 
 	@GET
 	@Path("buscarUsuario/{jsonUsuario}")
 	@Produces("application/json")
-	public String buscarUsuario(@PathParam("jsonUsuario") String jsonUsuario) {		
+	public String buscarUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		Usuario usuario = dao.buscarUsuario(u);
 		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(usuario);		
+		String json = gson.toJson(usuario);
 		return json;
 	}
 

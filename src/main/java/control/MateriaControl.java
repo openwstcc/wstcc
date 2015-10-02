@@ -2,7 +2,9 @@ package control;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -64,13 +66,14 @@ public class MateriaControl {
 		return Response.status(200).entity(json).build();
 	}
 
-	@GET
-	@Path("atualizarMaterias/{jsonMateria}")	
-	public Response atualizarMaterias(@PathParam("jsonMateria") String jsonMateria){
+	@POST
+	@Path("atualizarMaterias")	
+	@Consumes("application/json")
+	public Response atualizarMaterias(String jsonMateria){
 		JsonMateria temp = objects.fromJson(jsonMateria, JsonMateria.class);
 		int idUsuario = temp.getIdUsuario();
 		int[] idMaterias = temp.getIdMaterias();
-		boolean status = dao.atualiarMateriasUsuario(idUsuario, idMaterias);
-		return Response.status(200).entity(status).build();
+		boolean retorno = dao.atualiarMateriasUsuario(idUsuario, idMaterias);
+		return Response.status(200).entity(retorno).build();
 	}
 }
