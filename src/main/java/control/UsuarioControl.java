@@ -1,10 +1,8 @@
 package control;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -56,10 +54,10 @@ public class UsuarioControl {
 		return Response.status(200).entity(retorno).build();
 	}
 
-	@GET
-	@Path("buscarUsuario/{jsonUsuario}")
+	@POST
+	@Path("buscarUsuario")
 	@Produces("application/json")
-	public String buscarUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
+	public String buscarUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		Usuario usuario = dao.buscarUsuario(u);
 		Gson gson = new GsonBuilder().create();

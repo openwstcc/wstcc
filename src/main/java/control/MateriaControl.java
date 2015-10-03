@@ -6,7 +6,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -34,10 +33,10 @@ public class MateriaControl {
 	private Gson objects = new Gson();
 	MateriaDAO dao = new MateriaDAOImplementation();
 
-	@GET
-	@Path("buscarMateriasDuvida/{jsonDuvida}")
+	@POST
+	@Path("buscarMateriasDuvida")
 	@Produces("application/json")
-	public Response buscarMateriasDuvida(@PathParam("jsonDuvida") String jsonDuvida) {
+	public Response buscarMateriasDuvida(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
 		Gson gson = new GsonBuilder().create();
@@ -45,10 +44,10 @@ public class MateriaControl {
 		return Response.status(200).entity(json).build();
 	}
 	
-	@GET
-	@Path("buscarMateriasUsuario/{jsonUsuario}")
+	@POST
+	@Path("buscarMateriasUsuario")
 	@Produces("application/json")	
-	public Response buscarMateriasUsuario(@PathParam("jsonUsuario") String jsonUsuario) {
+	public Response buscarMateriasUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
