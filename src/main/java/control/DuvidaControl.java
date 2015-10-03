@@ -2,6 +2,11 @@ package control;
 
 import java.util.List;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,12 +26,16 @@ import dao.DuvidaDAO;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  * 
  */
+@Path("duvidas")
 public class DuvidaControl {
 
 	private Gson objects = new Gson();
 	DuvidaDAO dao = new DuvidaDAOImplementation();
 
-	public boolean adicionarDuvida(String jsonDuvida) {
+	@POST
+	@Path("adicionarDuvida")
+	@Produces("application/json")
+	public Response adicionarDuvida(String jsonDuvida) {
 		JsonDuvida temp = objects.fromJson(jsonDuvida, JsonDuvida.class);
 		Duvida d = new Duvida();
 		d.setIdDuvida(temp.getIdDuvida());
@@ -40,9 +49,11 @@ public class DuvidaControl {
 			TagControl tagController = new TagControl();
 			String[] tags = temp.getTags();
 			int[] idsTags = tagController.inserirTags(tags);
-			return dao.adicionarDuvida(d, idUsuario, materias, idsTags);
+			boolean retorno = dao.adicionarDuvida(d, idUsuario, materias, idsTags);
+			return Response.status(200).entity(retorno).build();
 		} else {
-			return dao.adicionarDuvida(d, idUsuario, materias, null);
+			boolean retorno = dao.adicionarDuvida(d, idUsuario, materias, null);
+			return Response.status(200).entity(retorno).build();
 		}		
 	}
 
