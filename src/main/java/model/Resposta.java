@@ -9,13 +9,31 @@ import java.util.Date;
  *
  */
 public class Resposta {
-	private int idResposta;
-	private String resposta;
 	private String criador;
+	private String resposta;
 	private Date dataCriacao;
-	private int rank;
-	private boolean flagProfessor;
 	private boolean flagCriador;
+	private boolean flagProfessor;
+	private int idResposta;
+	private int rank;
+	private int idUsuario;
+	private int idDuvida;
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public int getIdDuvida() {
+		return idDuvida;
+	}
+
+	public void setIdDuvida(int idDuvida) {
+		this.idDuvida = idDuvida;
+	}
 
 	public int getIdResposta() {
 		return idResposta;

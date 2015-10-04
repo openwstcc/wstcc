@@ -139,3 +139,6 @@ SELECT * FROM MATERIA WHERE SEMESTRE=6;
 Materia:[{"idMateria":26,"materia":"PROGRAMAÇÃO PARA MAINFRAME","semestre":4}]
 
 Duvida:[{"idUsuario":1},{"idDuvida":1,"criador":"Teste","titulo":"Teste","conteudo":"Teste","dataCriacao":"Aug 24, 1993 12:00:00 AM"},{"idMateria":26,"materia":"PROGRAMAÇÃO PARA MAINFRAME","semestre":4}]
+
+{"resposta":"Lorem ipsum consectetur arcu, inceptos molestie facilisis condimentum, inceptos rhoncus","dataCriacao":"Oct 4, 2015 1:54:45 PM","flagCriador":false,"flagProfessor":false,"idResposta":0,"rank":0,"idUsuario":1,"idDuvida":1}
+
