@@ -57,6 +57,9 @@ public class DuvidaControl {
 		}		
 	}
 
+	@POST
+	@Path("buscarDuvidasMateria")
+	@Produces("application/json")
 	public String buscarDuvidasMateria(String jsonMateria) {
 		Materia m = objects.fromJson(jsonMateria, Materia.class);
 		List<Duvida> duvidas = dao.buscarDuvidasMateria(m.getIdMateria());
@@ -65,6 +68,9 @@ public class DuvidaControl {
 		return json;
 	}
 
+	@POST
+	@Path("buscarDuvidasUsuario")
+	@Produces("application/json")
 	public String buscarDuvidasUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Duvida> duvidas = dao.buscarDuvidasUsuario(u.getIdUsuario());
@@ -73,7 +79,10 @@ public class DuvidaControl {
 		return json;
 	}
 
-	public String buscarDuvidaTag(String jsonTag) {
+	@POST
+	@Path("buscarDuvidasTag")
+	@Produces("application/json")
+	public String buscarDuvidasTag(String jsonTag) {
 		Tag t = objects.fromJson(jsonTag, Tag.class);
 		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());
 		Gson gson = new GsonBuilder().create();
