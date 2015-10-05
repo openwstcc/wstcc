@@ -18,15 +18,15 @@ import model.Resposta;
 public class RespostaDAOImplementation implements RespostaDAO {
 
 	@Override
-	public boolean adicionarResposta(Resposta r, int idDuvida, int idUsuario) {
+	public boolean adicionarResposta(Resposta r) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
 					"INSERT INTO RESPOSTA (ID_USUARIO, ID_DUVIDA, RESPOSTA, RANK, FLAG_PROF, FLAG_ALUNO, DATA_CRIACAO) "
 							+ " VALUES (?,?,?,?,?,?,?);");
-			pstmt.setInt(1, idDuvida);
-			pstmt.setInt(2, idDuvida);
+			pstmt.setInt(1, r.getIdUsuario());
+			pstmt.setInt(2, r.getIdDuvida());
 			pstmt.setString(3, r.getResposta());
 			pstmt.setInt(4, r.getRank());
 			pstmt.setBoolean(5, r.isFlagProfessor());
@@ -49,10 +49,11 @@ public class RespostaDAOImplementation implements RespostaDAO {
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT RESPOSTA, DATA_CRIACAO, FLAG_PROF, FLAG_ALUNO, RANK	 FROM RESPOSTA WHERE ID_DUVIDA=?");
+					"SELECT r.ID_RESPOSTA,r.ID_USUARIO,r.ID_DUVIDA,r.RESPOSTA, r.DATA_CRIACAO, r.FLAG_PROF, r.FLAG_ALUNO, r.RANK, u.NOME FROM RESPOSTA r INNER JOIN usuario u ON u.ID_USUARIO = r.ID_USUARIO WHERE ID_DUVIDA=?");
 			pstmt.setInt(1, idDuvida);
 			ResultSet rs = pstmt.executeQuery();
 			List<Resposta> respostas = new ArrayList<Resposta>();
+						
 
 			while (rs.next()) {
 				Resposta r = new Resposta();
@@ -61,6 +62,10 @@ public class RespostaDAOImplementation implements RespostaDAO {
 				r.setFlagProfessor(rs.getBoolean("FLAG_PROF"));
 				r.setFlagCriador(rs.getBoolean("FLAG_ALUNO"));
 				r.setRank(rs.getInt("RANK"));
+				r.setCriador(rs.getString("NOME"));
+				r.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				r.setIdUsuario(rs.getInt("ID_USUARIO"));
+				r.setIdResposta(rs.getInt("ID_RESPOSTA"));
 				respostas.add(r);
 			}
 

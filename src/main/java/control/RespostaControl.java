@@ -2,12 +2,17 @@ package control;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import dao.RespostaDAO;
 import dao.RespostaDAOImplementation;
-import json.JsonResposta;
 import model.Duvida;
 import model.Resposta;
 
@@ -19,31 +24,30 @@ import model.Resposta;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  * 
  */
+@Path("respostas")
 public class RespostaControl {
 
 	private Gson objects = new Gson();
 	RespostaDAO dao = new RespostaDAOImplementation();
-
-	public boolean adicionarResposta(String jsonResposta) {
-		JsonResposta temp = objects.fromJson(jsonResposta, JsonResposta.class);
-		Resposta r = new Resposta();
-		r.setCriador(temp.getCriador());
-		r.setResposta(temp.getResposta());
-		r.setRank(temp.getRank());
-		r.setDataCriacao(temp.getDataCriacao());
-		r.setFlagCriador(temp.isFlagCriador());
-		r.setFlagProfessor(temp.isFlagProfessor());
-		int idDuvida = temp.getIdDuvida();
-		int idUsuario = temp.getIdUsuario();
-		return dao.adicionarResposta(r, idDuvida, idUsuario);
+	
+	@POST
+	@Path("adicionarResposta")
+	@Consumes("application/json")
+		public Response adicionarResposta(String resposta) {
+	    Resposta r = objects.fromJson(resposta, Resposta.class);
+	    boolean retorno = dao.adicionarResposta(r);
+		return Response.status(200).entity(retorno).build();
 	}
-
-	public String buscarRespostas(String jsonDuvida) {
+	
+	@POST
+	@Path("buscarRespostas")
+	@Produces("application/json")
+	public Response buscarRespostas(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Resposta> respostas = dao.buscarRespostas(d.getIdDuvida());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(respostas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 
 	/**
@@ -52,10 +56,30 @@ public class RespostaControl {
 	 * "TRUE" Caso o usuário que esteja adicionando Rank seja professor da
 	 * duvida, altere a flag de professor para "TRUE".
 	 */
-
-	public boolean adicionarRank(String jsonResposta) {
+	@POST
+	@Path("adicionarRank")
+	@Consumes("application/json")
+	public Response adicionarRank(String jsonResposta) {
 		Resposta r = objects.fromJson(jsonResposta, Resposta.class);
-		return dao.adicionaRank(r.getIdResposta());
+		boolean retorno = dao.adicionaRank(r.getIdResposta());
+		return Response.status(200).entity(retorno).build();
 	}
+	@POST
+	@Path("alteraFlagAluno")
+	@Consumes("application/json")
+	public Response alteraFlagAluno(String jsonResposta) {
+		Resposta r = objects.fromJson(jsonResposta, Resposta.class);
+		boolean retorno = dao.alteraFlagAluno(r.getIdResposta());
+		return Response.status(200).entity(retorno).build();
+	}
+	@POST
+	@Path("alteraFlagProfessor")
+	@Consumes("application/json")
+	public Response alteraFlagProfessor(String jsonResposta) {
+		Resposta r = objects.fromJson(jsonResposta, Resposta.class);
+		boolean retorno = dao.alteraFlagProfessor(r.getIdResposta());
+		return Response.status(200).entity(retorno).build();
+	}
+	
 
 }

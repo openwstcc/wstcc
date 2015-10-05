@@ -27,7 +27,8 @@ public class RespostaDAOTest {
 
 	public static boolean insertResposta() {
 		RespostaTest r = new RespostaTest();
-		return dao.adicionarResposta(r.insertResposta(), rnd.nextInt(5) + 1, rnd.nextInt(5) + 1);
+		//*return dao.adicionarResposta(r.insertResposta(), rnd.nextInt(5) + 1, rnd.nextInt(5) + 1);
+		return false;
 	}
 
 	public static List<Resposta> selectRespostas() {

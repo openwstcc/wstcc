@@ -22,7 +22,7 @@ public interface RespostaDAO {
 	 *            ID do Usúario Relacionado.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionarResposta(Resposta r, int idDuvida, int idUsuario);
+	public boolean adicionarResposta(Resposta r);
 
 	/**
 	 * Método utilizado para buscar todas as Respostas relacionadas a uma
