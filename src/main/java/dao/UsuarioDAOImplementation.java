@@ -15,12 +15,12 @@ import model.Usuario;
 public class UsuarioDAOImplementation implements UsuarioDAO {
 
 	@Override
-	public boolean adicionarUsuario(Usuario u) {
+	public int adicionarUsuario(Usuario u) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"INSERT IGNORE INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, SENHA) "
+					"INSERT INTO USUARIO (NOME, SOBRENOME, TELEFONE, DATA_NASC, EMAIL, PERFIL, SENHA) "
 							+ " VALUES (?,?,?,?,?,?,MD5(?));");
 			pstmt.setString(1, u.getNome());
 			pstmt.setString(2, u.getSobrenome());
@@ -32,11 +32,13 @@ public class UsuarioDAOImplementation implements UsuarioDAO {
 			pstmt.setString(7, u.getSenha());
 			pstmt.executeUpdate();
 			pstmt.close();
-			return true;
+			return 200;
 		} catch (SQLException e) {
+			if(e.getErrorCode()==1062)
+				System.out.println("Usuário já existe.");
 			System.out.println("Erro ao inserir Usuário.");
 			e.printStackTrace();
-			return false;
+			return e.getErrorCode();
 		}
 	}
 

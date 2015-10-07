@@ -23,7 +23,7 @@ public class UsuarioDAOTest {
 		System.out.println("Teste de login de usuario: " + loginUsuario());
 	}
 
-	public static boolean insertUsuario() {
+	public static int insertUsuario() {
 		return dao.adicionarUsuario(u.randomNoID());
 	}
 

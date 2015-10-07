@@ -35,7 +35,7 @@ public class MateriaControl {
 
 	@POST
 	@Path("buscarMateriasDuvida")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public Response buscarMateriasDuvida(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Materia> materias = dao.buscarMateriasDuvida(d.getIdDuvida());
@@ -46,7 +46,7 @@ public class MateriaControl {
 	
 	@POST
 	@Path("buscarMateriasUsuario")
-	@Produces("application/json")	
+	@Produces("application/json; charset=utf-8")	
 	public Response buscarMateriasUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Materia> materias = dao.buscarMateriasUsuario(u.getIdUsuario());
@@ -57,11 +57,11 @@ public class MateriaControl {
 		
 	@GET
 	@Path("buscarMaterias")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public Response buscarMaterias() {
-		List<Materia> materias = dao.buscarTodasMaterias();
+		List<Materia> materias = dao.buscarTodasMaterias();		
 		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(materias);		
+		String json = gson.toJson(materias);				
 		return Response.status(200).entity(json).build();
 	}
 

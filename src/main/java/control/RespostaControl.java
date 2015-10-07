@@ -29,19 +29,19 @@ public class RespostaControl {
 
 	private Gson objects = new Gson();
 	RespostaDAO dao = new RespostaDAOImplementation();
-	
+
 	@POST
 	@Path("adicionarResposta")
 	@Consumes("application/json")
-		public Response adicionarResposta(String resposta) {
-	    Resposta r = objects.fromJson(resposta, Resposta.class);
-	    boolean retorno = dao.adicionarResposta(r);
+	public Response adicionarResposta(String resposta) {
+		Resposta r = objects.fromJson(resposta, Resposta.class);
+		boolean retorno = dao.adicionarResposta(r);
 		return Response.status(200).entity(retorno).build();
 	}
-	
+
 	@POST
 	@Path("buscarRespostas")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public Response buscarRespostas(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
 		List<Resposta> respostas = dao.buscarRespostas(d.getIdDuvida());
@@ -64,6 +64,7 @@ public class RespostaControl {
 		boolean retorno = dao.adicionaRank(r.getIdResposta());
 		return Response.status(200).entity(retorno).build();
 	}
+
 	@POST
 	@Path("alteraFlagAluno")
 	@Consumes("application/json")
@@ -72,6 +73,7 @@ public class RespostaControl {
 		boolean retorno = dao.alteraFlagAluno(r.getIdResposta());
 		return Response.status(200).entity(retorno).build();
 	}
+
 	@POST
 	@Path("alteraFlagProfessor")
 	@Consumes("application/json")
@@ -80,6 +82,5 @@ public class RespostaControl {
 		boolean retorno = dao.alteraFlagProfessor(r.getIdResposta());
 		return Response.status(200).entity(retorno).build();
 	}
-	
 
 }

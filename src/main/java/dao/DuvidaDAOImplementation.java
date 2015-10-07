@@ -50,7 +50,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 
 			pstmt.close();
 			return true;
-		} catch (SQLException e) {
+		} catch (SQLException e) {			
 			System.out.println("Erro ao inserir o Dúvida");
 			System.out.println(e);
 			return false;

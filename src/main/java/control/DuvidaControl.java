@@ -34,7 +34,7 @@ public class DuvidaControl {
 
 	@POST
 	@Path("adicionarDuvida")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public Response adicionarDuvida(String jsonDuvida) {
 		JsonDuvida temp = objects.fromJson(jsonDuvida, JsonDuvida.class);
 		Duvida d = new Duvida();
@@ -59,7 +59,7 @@ public class DuvidaControl {
 
 	@POST
 	@Path("buscarDuvidasMateria")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public String buscarDuvidasMateria(String jsonMateria) {
 		Materia m = objects.fromJson(jsonMateria, Materia.class);
 		List<Duvida> duvidas = dao.buscarDuvidasMateria(m.getIdMateria());
@@ -70,7 +70,7 @@ public class DuvidaControl {
 
 	@POST
 	@Path("buscarDuvidasUsuario")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public String buscarDuvidasUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Duvida> duvidas = dao.buscarDuvidasUsuario(u.getIdUsuario());
@@ -81,7 +81,7 @@ public class DuvidaControl {
 
 	@POST
 	@Path("buscarDuvidasTag")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public String buscarDuvidasTag(String jsonTag) {
 		Tag t = objects.fromJson(jsonTag, Tag.class);
 		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());

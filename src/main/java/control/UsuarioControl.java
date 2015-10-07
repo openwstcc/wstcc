@@ -32,7 +32,7 @@ public class UsuarioControl {
 	@Consumes("application/json")
 	public Response inserirUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
-		boolean retorno = dao.adicionarUsuario(u);		
+		int retorno = dao.adicionarUsuario(u);		
 		return Response.status(200).entity(retorno).build();
 	}
 
@@ -56,7 +56,7 @@ public class UsuarioControl {
 
 	@POST
 	@Path("buscarUsuario")
-	@Produces("application/json")
+	@Produces("application/json; charset=utf-8")
 	public String buscarUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		Usuario usuario = dao.buscarUsuario(u);

@@ -16,7 +16,7 @@ public interface UsuarioDAO {
 	 *            Usuário
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionarUsuario(Usuario u);
+	public int adicionarUsuario(Usuario u);
 
 	/**
 	 * Método para alteração de Usuários existentes.
