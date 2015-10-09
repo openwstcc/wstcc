@@ -2,6 +2,7 @@ package control;
 
 import java.util.List;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -85,6 +86,16 @@ public class DuvidaControl {
 	public String buscarDuvidasTag(String jsonTag) {
 		Tag t = objects.fromJson(jsonTag, Tag.class);
 		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return json;
+	}
+	
+	@GET
+	@Path("buscarDuvidas")
+	@Produces("application/json; charset=utf-8")
+	public String buscarDuvidas() {		
+		List<Duvida> duvidas = dao.buscarDuvidas();
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
 		return json;

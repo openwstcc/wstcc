@@ -71,4 +71,10 @@ public interface DuvidaDAO {
 	 * @return Lista de Dúvidas relacionadas com a Tag.
 	 */
 	public List<Duvida> buscarDuvidasTags(int idTag);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Duvida> buscarDuvidas();
 }

@@ -28,8 +28,7 @@ public class UsuarioControl {
 	UsuarioDAO dao = new UsuarioDAOImplementation();
 
 	@POST
-	@Path("inserirUsuario")
-	@Consumes("application/json")
+	@Path("inserirUsuario")	
 	public Response inserirUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		int retorno = dao.adicionarUsuario(u);		

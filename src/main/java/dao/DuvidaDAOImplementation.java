@@ -195,4 +195,31 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		}
 	}
 
+	@Override
+	public List<Duvida> buscarDuvidas() {
+
+		try {
+			Connection con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME FROM DUVIDA D "
+							+ "INNER JOIN USUARIO U ON U.ID_USUARIO=D.ID_USUARIO");			
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				//d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setCriador(rs.getString("NOME"));
+				duvidas.add(d);
+			}
+			return duvidas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar todas as Dúvidas");
+			System.out.println(e);
+			return null;
+		}
+	}
+
 }
