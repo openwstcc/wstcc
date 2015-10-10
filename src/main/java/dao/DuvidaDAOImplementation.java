@@ -210,7 +210,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
 				d.setTitulo(rs.getString("TITULO_DUVIDA"));
 				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
-				//d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
 				d.setCriador(rs.getString("NOME"));
 				duvidas.add(d);
 			}
