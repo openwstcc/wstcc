@@ -63,5 +63,16 @@ public class UsuarioControl {
 		String json = gson.toJson(usuario);
 		return json;
 	}
+	
+	@POST
+	@Path("loginUsuario")
+	@Produces("application/json; charset=utf-8")
+	public String loginUsuario (String jsonUsuario){
+		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
+		Usuario usuario = dao.loginUsuario(u);
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(usuario);
+		return json;
+	}
 
 }
