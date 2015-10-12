@@ -15,6 +15,7 @@ public class Duvida {
 	private String conteudo;
 	private String criador;
 	private Date dataCriacao;
+	private int qtdRespostas;
 
 	public int getIdDuvida() {
 		return idDuvida;
@@ -100,6 +101,14 @@ public class Duvida {
 
 	public void setCriador(String criador) {
 		this.criador = criador;
+	}
+
+	public int getQtdRespostas() {
+		return qtdRespostas;
+	}
+
+	public void setQtdRespostas(int qtdRespostas) {
+		this.qtdRespostas = qtdRespostas;
 	}
 
 }

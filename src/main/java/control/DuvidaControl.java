@@ -100,4 +100,15 @@ public class DuvidaControl {
 		String json = gson.toJson(duvidas);
 		return json;
 	}
+	@POST
+	@Path("buscarDuvidasMateriaPorUsuario")
+	@Produces("application/json; charset=utf-8")
+	public String buscarDuvidasMateriaPorUsuario(String jsonUsuario) {
+		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
+		List<Duvida> duvidas = dao.buscarDuvidasUsuarioRelacionadoMateria(u.getIdUsuario());
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return json;
+	}
+	
 }

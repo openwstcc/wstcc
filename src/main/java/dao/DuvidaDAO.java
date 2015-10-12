@@ -77,4 +77,6 @@ public interface DuvidaDAO {
 	 * @return
 	 */
 	public List<Duvida> buscarDuvidas();
+
+	public List<Duvida> buscarDuvidasUsuarioRelacionadoMateria(int idUsuario);
 }
