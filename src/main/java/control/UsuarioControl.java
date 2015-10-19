@@ -56,23 +56,23 @@ public class UsuarioControl {
 	@POST
 	@Path("buscarUsuario")
 	@Produces("application/json; charset=utf-8")
-	public String buscarUsuario(String jsonUsuario) {
+	public Response buscarUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		Usuario usuario = dao.buscarUsuario(u);
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(usuario);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 	
 	@POST
 	@Path("loginUsuario")
 	@Produces("application/json; charset=utf-8")
-	public String loginUsuario (String jsonUsuario){
+	public Response loginUsuario (String jsonUsuario){
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		Usuario usuario = dao.loginUsuario(u);
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(usuario);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 
 }
