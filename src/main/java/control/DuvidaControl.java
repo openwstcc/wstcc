@@ -61,54 +61,54 @@ public class DuvidaControl {
 	@POST
 	@Path("buscarDuvidasMateria")
 	@Produces("application/json; charset=utf-8")
-	public String buscarDuvidasMateria(String jsonMateria) {
+	public Response buscarDuvidasMateria(String jsonMateria) {
 		Materia m = objects.fromJson(jsonMateria, Materia.class);
 		List<Duvida> duvidas = dao.buscarDuvidasMateria(m.getIdMateria());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 
 	@POST
 	@Path("buscarDuvidasUsuario")
 	@Produces("application/json; charset=utf-8")
-	public String buscarDuvidasUsuario(String jsonUsuario) {
+	public Response buscarDuvidasUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Duvida> duvidas = dao.buscarDuvidasUsuario(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 
 	@POST
 	@Path("buscarDuvidasTag")
 	@Produces("application/json; charset=utf-8")
-	public String buscarDuvidasTag(String jsonTag) {
+	public Response buscarDuvidasTag(String jsonTag) {
 		Tag t = objects.fromJson(jsonTag, Tag.class);
 		List<Duvida> duvidas = dao.buscarDuvidasTags(t.getIdTag());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 	
 	@GET
 	@Path("buscarDuvidas")
 	@Produces("application/json; charset=utf-8")
-	public String buscarDuvidas() {		
+	public Response buscarDuvidas() {		
 		List<Duvida> duvidas = dao.buscarDuvidas();
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 	@POST
 	@Path("buscarDuvidasMateriaPorUsuario")
 	@Produces("application/json; charset=utf-8")
-	public String buscarDuvidasMateriaPorUsuario(String jsonUsuario) {
+	public Response buscarDuvidasMateriaPorUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		List<Duvida> duvidas = dao.buscarDuvidasUsuarioRelacionadoMateria(u.getIdUsuario());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
-		return json;
+		return Response.status(200).entity(json).build();
 	}
 	
 }
