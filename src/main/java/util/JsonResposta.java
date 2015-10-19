@@ -1,4 +1,4 @@
-package json;
+package util;
 
 import java.util.Date;
 

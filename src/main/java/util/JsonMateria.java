@@ -1,4 +1,4 @@
-package json;
+package util;
 
 public class JsonMateria {
 	private int[] idMaterias;

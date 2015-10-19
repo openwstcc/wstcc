@@ -12,11 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import dao.DuvidaDAOImplementation;
-import json.JsonDuvida;
 import model.Duvida;
 import model.Materia;
 import model.Tag;
 import model.Usuario;
+import util.JsonDuvida;
 import dao.DuvidaDAO;
 
 /**

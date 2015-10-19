@@ -14,10 +14,10 @@ import com.google.gson.GsonBuilder;
 
 import dao.MateriaDAO;
 import dao.MateriaDAOImplementation;
-import json.JsonMateria;
 import model.Duvida;
 import model.Materia;
 import model.Usuario;
+import util.JsonMateria;
 
 /**
  * Materia Controller responsável pelos métodos de matérias. Estes métodos são
