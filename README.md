@@ -1,5 +1,18 @@
 # WebService para trabalho de conclusão de curso.
 
+* **Sobre**
+
+WebService utiizado para trabalho de conclusão de curso, sendo consumido por protótipo de aplicativo mobile (https://github.com/gabrielqueiroz/androidtcc).
+
+* **O que você pode encontrar neste projeto?**
+
+1. Framework RESTEasy para mapeamento de funções de classes controles disponibilizando via HTTP (Métodos POST com parametro no Body e GET).
+2. Framework Gson para gerenciamento de objetos e lista de objetos Java para arquivos JSON.
+3. Projeto Maven para gerenciamento de dependências.
+4. JBoss EAP como servidor de aplicação.
+5. MySQL como banco de dados.
+6. Padrão DAO (Data Access Object) para classes de interação com o banco de dados.
+
 * **Configurações do Servidor de Aplicação**
 ```
 JBoss EAP 6.1+
