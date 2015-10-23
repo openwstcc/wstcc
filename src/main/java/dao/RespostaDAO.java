@@ -41,7 +41,7 @@ public interface RespostaDAO {
 	 *            ID da Resposta.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionaRank(int idResposta);
+	public boolean adicionaRank(int idResposta,int idUsuario);
 
 	/**
 	 * Método utilizado para alterar Flag de resposta que teve rank acrescido do

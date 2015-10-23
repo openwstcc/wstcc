@@ -40,6 +40,12 @@ CREATE TABLE RESPOSTA ( ID_RESPOSTA INT PRIMARY KEY NOT NULL AUTO_INCREMENT, ID_
 CREATE TABLE MATERIA_USUARIO ( ID_MATERIA INT NOT NULL, ID_USUARIO INT NOT NULL);
 CREATE TABLE MATERIA_DUVIDA ( ID_MATERIA INT NOT NULL, ID_DUVIDA INT NOT NULL );
 CREATE TABLE DUVIDA_TAG ( ID_DUVIDA INT NOT NULL, ID_TAG INT NOT NULL );
+CREATE TABLE `like_resposta` (
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_RESPOSTA` int(11) NOT NULL,
+  `MARCADA` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_USUARIO`,`ID_RESPOSTA`)
+)
 ```
 * **Script de Criação de Chaves Estrangeiras**
 ```
@@ -106,3 +112,37 @@ INSERT INTO MATERIA (MATERIA, SEMESTRE) VALUES ('GESTÃO E GOVERNANÇA DE TECNOL
 INSERT INTO MATERIA (MATERIA, SEMESTRE) VALUES ('LABORATÓRIO DE REDES', '6');
 INSERT INTO MATERIA (MATERIA, SEMESTRE) VALUES ('TRABALHO DE GRADUAÇÃO II', '6');
 ```
+* **SP De Likes**
+```
+drop procedure sp_set_like
+DELIMITER $$ 
+CREATE PROCEDURE sp_set_Like(IN id_resp int, IN id_usu int)
+ 
+BEGIN 
+DECLARE total_likes int default 0;
+DECLARE like_usu_resposta int default 0;
+DECLARE total_rank_atual int default 0;
+DECLARE like_marcada tinyint default 0;
+	
+    SELECT count(id_usuario) from like_resposta where ID_RESPOSTA = id_resp And ID_USUARIO = id_usu INTO like_usu_resposta;
+    SELECT rank from resposta where ID_RESPOSTA = id_resp INTO total_rank_atual;
+	SELECT marcada from like_resposta where ID_RESPOSTA = id_resp and ID_USUARIO = id_usu INTO like_marcada;
+    
+	IF like_usu_resposta = 0 THEN
+			SET total_rank_atual := total_rank_atual+1;
+            INSERT INTO like_resposta (ID_RESPOSTA,ID_USUARIO,MARCADA) VALUES (id_resp,id_usu,1);
+		
+	ELSEIF like_marcada=0 then
+			SET total_rank_atual := total_rank_atual+1;
+			UPDATE like_resposta set marcada = 1  WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
+	ELSE
+			SET total_rank_atual := total_rank_atual-1;
+            UPDATE like_resposta set marcada = 0 WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
+	END IF;
+	UPDATE resposta SET rank= total_rank_atual where ID_RESPOSTA = id_resp; 
+    
+END $$ 
+DELIMITER ;
+```
+
+

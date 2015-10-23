@@ -61,7 +61,7 @@ public class RespostaControl {
 	@Consumes("application/json")
 	public Response adicionarRank(String jsonResposta) {
 		Resposta r = objects.fromJson(jsonResposta, Resposta.class);
-		boolean retorno = dao.adicionaRank(r.getIdResposta());
+		boolean retorno = dao.adicionaRank(r.getIdResposta(),r.getIdUsuario());
 		return Response.status(200).entity(retorno).build();
 	}
 

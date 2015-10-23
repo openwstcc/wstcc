@@ -79,12 +79,13 @@ public class RespostaDAOImplementation implements RespostaDAO {
 	}
 
 	@Override
-	public boolean adicionaRank(int idResposta) {
+	public boolean adicionaRank(int idResposta,int idUsuario) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt = con.prepareStatement("UPDATE RESPOSTA SET RANK=RANK+1 WHERE ID_RESPOSTA=?");
+			PreparedStatement pstmt = con.prepareStatement("CALL sp_set_like(?,?)");
 			pstmt.setInt(1, idResposta);
+			pstmt.setInt(2, idUsuario);
 			pstmt.executeUpdate();
 			pstmt.close();
 			return true;
