@@ -29,6 +29,7 @@ public class RespostaControl {
 
 	private Gson objects = new Gson();
 	RespostaDAO dao = new RespostaDAOImplementation();
+	Notificacao n = new Notificacao();
 
 	@POST
 	@Path("adicionarResposta")
@@ -36,6 +37,7 @@ public class RespostaControl {
 	public Response adicionarResposta(String resposta) {
 		Resposta r = objects.fromJson(resposta, Resposta.class);
 		boolean retorno = dao.adicionarResposta(r);
+		n.notificarNovaResposta(r.getIdResposta());
 		return Response.status(200).entity(retorno).build();
 	}
 
