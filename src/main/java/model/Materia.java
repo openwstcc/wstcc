@@ -9,7 +9,16 @@ package model;
 public class Materia {
 	private int idMateria;
 	private String materia;
-	private int semestre;
+	private int semestre,
+	private boolean marcado;
+
+	public boolean isMarcado() {
+		return marcado;
+	}
+
+	public void setMarcado(boolean marcado) {
+		this.marcado = marcado;
+	}
 
 	public int getIdMateria() {
 		return idMateria;
