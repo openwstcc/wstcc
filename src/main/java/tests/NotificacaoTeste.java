@@ -6,7 +6,7 @@ public class NotificacaoTeste {
 
 	public static void main(String[] args) {
 		Notificacao n = new Notificacao();
-		n.notificarNovaResposta(1);
+		n.notificarNovaResposta();
 	}
 
 }

@@ -1,7 +1,10 @@
 package dao;
 
+import java.util.List;
+
 import util.NoticacaoDuvidas;
 
 public interface NotificacaoDAO {
-	public NoticacaoDuvidas notificarDuvidaResposta(int idResposta);	
+	public List<NoticacaoDuvidas> notificarDuvidaRespostaRelacionadaMateriaData();
+	public List<NoticacaoDuvidas> notificarDuvidaRespostaRelacionadaUsuario();
 }

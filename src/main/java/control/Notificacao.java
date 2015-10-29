@@ -1,6 +1,9 @@
 package control;
 
 import javax.mail.Transport;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Address;
 import javax.mail.Message;
@@ -12,20 +15,25 @@ import javax.mail.internet.MimeMessage;
 
 import dao.NotificacaoDAO;
 import dao.NotificacaoDAOImplementation;
+import model.Duvida;
 import util.NoticacaoDuvidas;
 
 public class Notificacao {
 	NotificacaoDAO dao = new NotificacaoDAOImplementation();
-	NoticacaoDuvidas nd = new NoticacaoDuvidas();
-	public String email = "XXXX@hotmail.com";
-	public String senha = "XXX";
+	List<NoticacaoDuvidas> nds = new ArrayList<NoticacaoDuvidas>();
+	public String emailServer = "bruhno.hc@hotmail.com";
+	public String senhaServer = "Bruhno!q2";
 
-	public void notificarNovaResposta(int idResposta) {
-		nd = dao.notificarDuvidaResposta(idResposta);
-		EnviarEmail();
+	public void notificarNovaResposta() {
+		nds = dao.notificarDuvidaRespostaRelacionadaMateriaData();
+		for (NoticacaoDuvidas nd : nds) {
+			EnviarEmail(nd.getNomeUsuario(), nd.getEmailUsuario(), nd.getMateriaDuvida(), nd.getTituloDuvida(),
+					nd.getQuantidadeResposta());
+			;
+		}
 	}
 
-	public void EnviarEmail() {
+	public void EnviarEmail(String usuario,String email,String materia,String titulo, int quant ) {
 		Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", "smtp.live.com");
@@ -38,7 +46,7 @@ public class Notificacao {
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(email, senha);
+				return new PasswordAuthentication(emailServer, senhaServer);
 			}
 		});
 
@@ -48,13 +56,13 @@ public class Notificacao {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(email));
+			message.setFrom(new InternetAddress(emailServer));
 
-			Address[] toUser = InternetAddress.parse(nd.getEmail());
+			Address[] toUser = InternetAddress.parse(email);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
-			message.setSubject("Nova Resposta");
-			message.setText("A dúvida "+ nd.getTituloDuvida() +" teve uma nova resposta !");
+			message.setSubject("Nova Duvida da matéria "+materia);
+			message.setText("Olá "+usuario+" a matéria "+materia+" teve uma nova dúvida,"+titulo+", até o momento tem "+quant+" respostas, gostaria de comentar?");
 			Transport.send(message);
 
 			System.out.println("Feito!!!");
