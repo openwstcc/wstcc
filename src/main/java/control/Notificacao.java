@@ -21,8 +21,8 @@ import util.NoticacaoDuvidas;
 public class Notificacao {
 	NotificacaoDAO dao = new NotificacaoDAOImplementation();
 	List<NoticacaoDuvidas> nds = new ArrayList<NoticacaoDuvidas>();
-	public String emailServer = "bruhno.hc@hotmail.com";
-	public String senhaServer = "Bruhno!q2";
+	public String emailServer = "XXXX@hotmail.com";
+	public String senhaServer = "XXXX";
 
 	public void notificarNovaResposta() {
 		nds = dao.notificarDuvidaRespostaRelacionadaMateriaData();
