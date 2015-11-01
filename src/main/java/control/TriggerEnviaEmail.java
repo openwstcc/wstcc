@@ -14,7 +14,7 @@ public class TriggerEnviaEmail {
     	
     	CronTrigger trigger = new CronTrigger();
     	trigger.setName("TriggerEnviaEmai");
-    	trigger.setCronExpression("0 50 23 1/1 * ? *");
+    	trigger.setCronExpression("0 0 11 1/1 * ? *");
     	
     	Scheduler scheduler = new StdSchedulerFactory().getScheduler();
     	scheduler.start();

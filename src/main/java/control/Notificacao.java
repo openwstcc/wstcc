@@ -24,32 +24,30 @@ import util.NoticacaoDuvidas;
 public class Notificacao implements Job {
 	NotificacaoDAO dao = new NotificacaoDAOImplementation();
 	List<NoticacaoDuvidas> nds = new ArrayList<NoticacaoDuvidas>();
-	public String emailServer = "XXXX@hotmail.com";
+	public String emailServer = "bruhno.hc@hotmail.com";
 	public String senhaServer = "XXXX";
 
-	
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		nds = dao.notificarDuvidaRespostaRelacionadaMateriaData();
 		for (NoticacaoDuvidas nd : nds) {
 			EnviarEmail(nd.getNomeUsuario(), nd.getEmailUsuario(), nd.getMateriaDuvida(), nd.getTituloDuvida(),
 					nd.getQuantidadeResposta());
-			;
+			System.out.println(nd.getNomeUsuario() + nd.getEmailUsuario() + nd.getMateriaDuvida() + nd.getTituloDuvida()
+					+ nd.getQuantidadeResposta());
 		}
-		
-	}
-	
-	
-	public void EnviarEmail(String usuario,String email,String materia,String titulo, int quant ) {
-		Properties props = new Properties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.host", "smtp.live.com");
-        props.put("mail.smtp.socketFactory.port", "587");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "587");
 
+	}
+
+	public void EnviarEmail(String usuario, String email, String materia, String titulo, int quant) {
+		Properties props = new Properties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.host", "smtp.live.com");
+		props.put("mail.smtp.socketFactory.port", "587");
+		props.put("mail.smtp.socketFactory.fallback", "false");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "587");
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -68,8 +66,10 @@ public class Notificacao implements Job {
 			Address[] toUser = InternetAddress.parse(email);
 
 			message.setRecipients(Message.RecipientType.TO, toUser);
-			message.setSubject("Nova Duvida da matéria "+materia);
-			message.setText("Olá "+usuario+" a matéria "+materia+" teve uma nova dúvida,"+titulo+", até o momento tem "+quant+" respostas, gostaria de comentar?");
+			message.setSubject("Novas Respostas da dúvida " + titulo);
+			message.setText("Olá " + usuario + ",\n A dúvida " + titulo + " da matéria " + materia
+					+ " teve novas respostas ontem, até o momento tem " + quant
+					+ " pessoas comentaram, gostaria de faze um novo comentario?");
 			Transport.send(message);
 
 			System.out.println("Feito!!!");
@@ -78,7 +78,5 @@ public class Notificacao implements Job {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 
 }
