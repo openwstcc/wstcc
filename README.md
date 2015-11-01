@@ -124,25 +124,23 @@ DECLARE like_usu_resposta int default 0;
 DECLARE total_rank_atual int default 0;
 DECLARE like_marcada tinyint default 0;
 	
-    SELECT count(id_usuario) from like_resposta where ID_RESPOSTA = id_resp And ID_USUARIO = id_usu INTO like_usu_resposta;
-    SELECT rank from resposta where ID_RESPOSTA = id_resp INTO total_rank_atual;
-	SELECT marcada from like_resposta where ID_RESPOSTA = id_resp and ID_USUARIO = id_usu INTO like_marcada;
+    SELECT count(ID_USUARIO) FROM LIKE_RESPOSTA WHERE ID_RESPOSTA = id_resp And ID_USUARIO = id_usu INTO like_usu_resposta;
+    SELECT rank FROM RESPOSTA WHERE ID_RESPOSTA = id_resp INTO total_rank_atual;
+	SELECT MARCADA FROM LIKE_RESPOSTA WHERE ID_RESPOSTA = id_resp and ID_USUARIO = id_usu INTO like_marcada;
     
 	IF like_usu_resposta = 0 THEN
 			SET total_rank_atual := total_rank_atual+1;
-            INSERT INTO like_resposta (ID_RESPOSTA,ID_USUARIO,MARCADA) VALUES (id_resp,id_usu,1);
+            INSERT INTO LIKE_RESPOSTA (ID_RESPOSTA,ID_USUARIO,MARCADA) VALUES (id_resp,id_usu,1);
 		
 	ELSEIF like_marcada=0 then
 			SET total_rank_atual := total_rank_atual+1;
-			UPDATE like_resposta set marcada = 1  WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
+			UPDATE LIKE_RESPOSTA set MARCADA = 1  WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
 	ELSE
 			SET total_rank_atual := total_rank_atual-1;
-            UPDATE like_resposta set marcada = 0 WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
+            UPDATE LIKE_RESPOSTA set MARCADA = 0 WHERE ID_RESPOSTA = id_resp AND ID_USUARIO = id_usu;
 	END IF;
-	UPDATE resposta SET rank= total_rank_atual where ID_RESPOSTA = id_resp; 
+	UPDATE RESPOSTA SET RANK = total_rank_atual WHERE ID_RESPOSTA = id_resp; 
     
 END $$ 
-DELIMITER ;
 ```
-
 
