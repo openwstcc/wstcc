@@ -13,26 +13,33 @@ import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
 import dao.NotificacaoDAO;
 import dao.NotificacaoDAOImplementation;
-import model.Duvida;
 import util.NoticacaoDuvidas;
 
-public class Notificacao {
+public class Notificacao implements Job {
 	NotificacaoDAO dao = new NotificacaoDAOImplementation();
 	List<NoticacaoDuvidas> nds = new ArrayList<NoticacaoDuvidas>();
 	public String emailServer = "XXXX@hotmail.com";
 	public String senhaServer = "XXXX";
 
-	public void notificarNovaResposta() {
+	
+	@Override
+	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		nds = dao.notificarDuvidaRespostaRelacionadaMateriaData();
 		for (NoticacaoDuvidas nd : nds) {
 			EnviarEmail(nd.getNomeUsuario(), nd.getEmailUsuario(), nd.getMateriaDuvida(), nd.getTituloDuvida(),
 					nd.getQuantidadeResposta());
 			;
 		}
+		
 	}
-
+	
+	
 	public void EnviarEmail(String usuario,String email,String materia,String titulo, int quant ) {
 		Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
@@ -71,5 +78,7 @@ public class Notificacao {
 			throw new RuntimeException(e);
 		}
 	}
+
+
 
 }

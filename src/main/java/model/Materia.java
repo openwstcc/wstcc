@@ -9,7 +9,7 @@ package model;
 public class Materia {
 	private int idMateria;
 	private String materia;
-	private int semestre,
+	private int semestre;
 	private boolean marcado;
 
 	public boolean isMarcado() {
