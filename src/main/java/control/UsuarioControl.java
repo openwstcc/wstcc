@@ -1,6 +1,5 @@
 package control;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -36,8 +35,7 @@ public class UsuarioControl {
 	}
 
 	@POST
-	@Path("alterarUsuario/{jsonUsuario}")
-	@Consumes("application/json")
+	@Path("alterarUsuario")	
 	public Response alterarUsuario(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		boolean retorno = dao.alterarUsuario(u);
@@ -46,7 +44,6 @@ public class UsuarioControl {
 
 	@POST
 	@Path("alterarSenha")
-	@Consumes("application/json")	
 	public Response alterarSenha(String jsonUsuario) {
 		Usuario u = objects.fromJson(jsonUsuario, Usuario.class);
 		boolean retorno = dao.alterarSenha(u);

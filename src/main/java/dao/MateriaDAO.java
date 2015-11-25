@@ -12,7 +12,7 @@ import model.Materia;
  *
  */
 public interface MateriaDAO {
-	public boolean atualiarMateriasUsuario(int idUsuario, int[] idMaterias);
+	public int atualizarMateriasUsuario(List<Materia> materias);
 	
 	/**
 	 * Método de inserção de Matérias informando Usuários.

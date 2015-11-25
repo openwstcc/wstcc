@@ -10,11 +10,11 @@ import java.sql.SQLException;
  * @author Bruno Henrique Calil, Gabriel Queiroz e Victor Hugo.
  * 
  */
-public class JDBCUtil {
+public class JDBCUtil {	
 	private final static String JDBC_CLASS = "com.mysql.jdbc.Driver";
-	private final static String JDBC_URL = "jdbc:mysql://localhost:3306/TCCSERVER";
-	private final static String JDBC_USERID = "root";
-	private final static String JDBC_PASSWORD = "root";
+	private final static String JDBC_URL = "jdbc:mysql://127.12.55.130:3306/openwstcc";
+	private final static String JDBC_USERID = "adminQrQhxxi";
+	private final static String JDBC_PASSWORD = "8UzFEHX-Krjh";
 	private Connection con;
 	private static JDBCUtil jdbcutil;
 

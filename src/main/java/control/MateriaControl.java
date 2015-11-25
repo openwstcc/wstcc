@@ -1,8 +1,9 @@
 package control;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,13 +12,13 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import dao.MateriaDAO;
 import dao.MateriaDAOImplementation;
 import model.Duvida;
 import model.Materia;
 import model.Usuario;
-import util.JsonMateria;
 
 /**
  * Materia Controller responsável pelos métodos de matérias. Estes métodos são
@@ -66,13 +67,13 @@ public class MateriaControl {
 	}
 
 	@POST
-	@Path("atualizarMaterias")	
-	@Consumes("application/json")
+	@Path("atualizarMaterias")		
 	public Response atualizarMaterias(String jsonMateria){
-		JsonMateria temp = objects.fromJson(jsonMateria, JsonMateria.class);
-		int idUsuario = temp.getIdUsuario();
-		int[] idMaterias = temp.getIdMaterias();
-		boolean retorno = dao.atualiarMateriasUsuario(idUsuario, idMaterias);
+		Type listType = new TypeToken<ArrayList<Materia>>(){}.getType();
+		List<Materia> materias = objects.fromJson(jsonMateria, listType);
+		Materia materia = materias.get(0);
+		dao.removerMateriaUsuario(materia.getIdUsuario());
+		int retorno = dao.atualizarMateriasUsuario(materias);
 		return Response.status(200).entity(retorno).build();
 	}
 }

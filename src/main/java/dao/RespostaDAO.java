@@ -32,7 +32,7 @@ public interface RespostaDAO {
 	 *            ID da Dúvida
 	 * @return Lista de Respostas relacionadas com a Dúvida.
 	 */
-	public List<Resposta> buscarRespostas(int idDuvida);
+	public List<Resposta> buscarRespostas(int idDuvida, int usuarioLogado);
 
 	/**
 	 * Método utilizado para adicionar rank a uma reposta.
@@ -41,7 +41,7 @@ public interface RespostaDAO {
 	 *            ID da Resposta.
 	 * @return Sucesso ou falha da ação.
 	 */
-	public boolean adicionaRank(int idResposta,int idUsuario);
+	public boolean adicionaRank(int idResposta,int idUsuario,boolean validarResp);
 
 	/**
 	 * Método utilizado para alterar Flag de resposta que teve rank acrescido do

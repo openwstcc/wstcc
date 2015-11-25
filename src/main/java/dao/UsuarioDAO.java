@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import model.Usuario;
 
 /**
@@ -53,4 +55,6 @@ public interface UsuarioDAO {
 	 * @return Usuário.
 	 */
 	public Usuario buscarUsuario(Usuario u);
+
+	public List<Usuario> listaUsuarios();
 }

@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import model.Duvida;
+import util.JsonPesquisa;
 
 /**
  * DAO (Data Access Object) responsável pelos métodos de Dúvidas.
@@ -24,12 +27,10 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con
 					.prepareStatement("INSERT INTO DUVIDA (ID_USUARIO, TITULO_DUVIDA, CONTEUDO_DUVIDA, DATA_CRIACAO) "
-							+ "VALUES (?,?,?,?)");
+							+ "VALUES (?,?,?,NOW())");
 			pstmt.setInt(1, idUsuario);
-			pstmt.setString(2, d.getTitulo());
 			pstmt.setString(3, d.getConteudo());
-			java.sql.Date dataCriacao = new java.sql.Date(d.getDataCriacao().getTime());
-			pstmt.setDate(4, dataCriacao);
+			pstmt.setString(2, d.getTitulo());
 			pstmt.executeUpdate();
 
 			for (int idMateria : materias) {
@@ -50,7 +51,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 
 			pstmt.close();
 			return true;
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			System.out.println("Erro ao inserir o Dúvida");
 			System.out.println(e);
 			return false;
@@ -92,10 +93,10 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME,"
-					+ "(SELECT COUNT(ID_RESPOSTA) FROM resposta R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM MATERIA_DUVIDA MD "
-					+ "INNER JOIN duvida D ON D.ID_DUVIDA=MD.ID_DUVIDA "
-					+ "INNER JOIN usuario U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=?");
+					"SELECT DISTINCT D.ID_DUVIDA,D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME,U.ID_USUARIO, "
+							+ "(SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM MATERIA_DUVIDA MD "
+							+ "INNER JOIN DUVIDA D ON D.ID_DUVIDA=MD.ID_DUVIDA "
+							+ "INNER JOIN USUARIO U ON D.ID_USUARIO=U.ID_USUARIO WHERE MD.ID_MATERIA=?");
 			pstmt.setInt(1, idMateria);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
@@ -109,6 +110,41 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
 				duvidas.add(d);
 			}
+			
+			//Relaciona as materias das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT ID_MATERIA FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<Integer> result = new ArrayList<Integer>();
+				while(rs.next())
+					result.add(rs.getInt("ID_MATERIA"));
+				
+				int[] temp = new int[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setMaterias(temp);
+			}
+
+			//Relaciona as tags das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT T.NOME FROM TAG T INNER JOIN DUVIDA_TAG DT ON DT.ID_TAG=T.ID_TAG WHERE DT.ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<String> result = new ArrayList<String>();
+				while(rs.next())
+					result.add(rs.getString("NOME"));
+				
+				String[] temp = new String[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setTags(temp);
+			}
+			
 			return duvidas;
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID matéria" + idMateria);
@@ -122,9 +158,9 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME, "
-					+ "(SELECT COUNT(ID_RESPOSTA) FROM resposta R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
-					+ "INNER JOIN USUARIO U ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=?");
+					"SELECT D.ID_DUVIDA,D.TITULO_DUVIDA,D.CONTEUDO_DUVIDA,D.DATA_CRIACAO,U.NOME,U.ID_USUARIO, "
+							+ "(SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
+							+ "INNER JOIN USUARIO U ON D.ID_USUARIO=U.ID_USUARIO WHERE U.ID_USUARIO=? ORDER BY D.ID_DUVIDA DESC");
 			pstmt.setInt(1, idUsuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
@@ -138,6 +174,41 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
 				duvidas.add(d);
 			}
+			
+			//Relaciona as materias das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT ID_MATERIA FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<Integer> result = new ArrayList<Integer>();
+				while(rs.next())
+					result.add(rs.getInt("ID_MATERIA"));
+				
+				int[] temp = new int[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setMaterias(temp);
+			}
+
+			//Relaciona as tags das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT T.NOME FROM TAG T INNER JOIN DUVIDA_TAG DT ON DT.ID_TAG=T.ID_TAG WHERE DT.ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<String> result = new ArrayList<String>();
+				while(rs.next())
+					result.add(rs.getString("NOME"));
+				
+				String[] temp = new String[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setTags(temp);
+			}
+			
 			return duvidas;
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar das Duvidas relacioandas ao ID usuário: " + idUsuario);
@@ -152,10 +223,10 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME, "
-					+ "(SELECT COUNT(ID_RESPOSTA) FROM resposta R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
-					+ "INNER JOIN DUVIDA_TAG DT ON D.ID_DUVIDA=DT.ID_DUVIDA "
-					+ "INNER JOIN USUARIO U ON U.ID_USUARIO=D.ID_USUARIO WHERE DT.ID_TAG=?");
+					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME, U.ID_USUARIO,"
+							+ "(SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
+							+ "INNER JOIN DUVIDA_TAG DT ON D.ID_DUVIDA=DT.ID_DUVIDA "
+							+ "INNER JOIN USUARIO U ON U.ID_USUARIO=D.ID_USUARIO WHERE DT.ID_TAG=? ORDER BY D.ID_DUVIDA DESC");
 			pstmt.setInt(1, idTag);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
@@ -168,7 +239,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setCriador(rs.getString("NOME"));
 				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
 				duvidas.add(d);
-			}
+			}				
 			return duvidas;
 		} catch (SQLException e) {
 			System.out.println("Erro ao carregar das Duvidas relacionadas ao ID Tag: " + idTag);
@@ -195,7 +266,7 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 
 			return false;
 		} catch (SQLException e) {
-			System.out.println("Erro ao validar Duvida: "+idDuvida);
+			System.out.println("Erro ao validar Duvida: " + idDuvida);
 			System.out.println(e);
 			return false;
 		}
@@ -207,9 +278,9 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME,"
-					+ "(SELECT COUNT(ID_RESPOSTA) FROM resposta R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
-					+ "INNER JOIN USUARIO U ON U.ID_USUARIO=D.ID_USUARIO");			
+					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME, U.ID_USUARIO, "
+							+ "(SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)  AS QTD_RESPOSTAS FROM DUVIDA D "
+							+ "INNER JOIN USUARIO U ON U.ID_USUARIO=D.ID_USUARIO ORDER BY D.ID_DUVIDA DESC");
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
 			while (rs.next()) {
@@ -220,8 +291,44 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
 				d.setCriador(rs.getString("NOME"));
 				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
+				d.setIdUsuario(rs.getInt("ID_USUARIO"));
 				duvidas.add(d);
 			}
+			
+			//Relaciona as materias das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT ID_MATERIA FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<Integer> result = new ArrayList<Integer>();
+				while(rs.next())
+					result.add(rs.getInt("ID_MATERIA"));
+				
+				int[] temp = new int[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setMaterias(temp);
+			}
+
+			//Relaciona as tags das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT T.NOME FROM TAG T INNER JOIN DUVIDA_TAG DT ON DT.ID_TAG=T.ID_TAG WHERE DT.ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<String> result = new ArrayList<String>();
+				while(rs.next())
+					result.add(rs.getString("NOME"));
+				
+				String[] temp = new String[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setTags(temp);
+			}
+			
 			return duvidas;
 		} catch (SQLException e) {
 			System.out.println("Erro ao buscar todas as Dúvidas");
@@ -229,16 +336,17 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Duvida> buscarDuvidasUsuarioRelacionadoMateria(int idUsuario) {
 
 		try {
 			Connection con = JDBCUtil.getInstance().getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME,(SELECT COUNT(ID_RESPOSTA)"
-					+"FROM resposta R WHERE R.ID_DUVIDA = MD.ID_DUVIDA) AS QTD_RESPOSTAS FROM materia_duvida MD "
-					+ "INNER JOIN materia_usuario MU ON MU.ID_MATERIA = MD.ID_MATERIA INNER JOIN usuario U on MU.ID_USUARIO = U.ID_USUARIO "
-					+ "INNER JOIN duvida D ON D.ID_DUVIDA = MD.ID_DUVIDA WHERE U.ID_USUARIO = ?");		
+					"SELECT DISTINCT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME,  U.ID_USUARIO, (SELECT COUNT(ID_RESPOSTA)"
+							+ "FROM RESPOSTA R WHERE R.ID_DUVIDA = MD.ID_DUVIDA) AS QTD_RESPOSTAS FROM MATERIA_DUVIDA MD "
+							+ "INNER JOIN MATERIA_USUARIO MU ON MU.ID_MATERIA = MD.ID_MATERIA INNER JOIN USUARIO U on MU.ID_USUARIO = U.ID_USUARIO "
+							+ "INNER JOIN DUVIDA D ON D.ID_DUVIDA = MD.ID_DUVIDA WHERE U.ID_USUARIO = ? ORDER BY D.ID_DUVIDA DESC");
 			pstmt.setInt(1, idUsuario);
 			ResultSet rs = pstmt.executeQuery();
 			List<Duvida> duvidas = new ArrayList<Duvida>();
@@ -250,6 +358,85 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
 				d.setCriador(rs.getString("NOME"));
 				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
+				d.setIdUsuario(rs.getInt("ID_USUARIO"));
+				duvidas.add(d);
+			}
+			
+			//Relaciona as materias das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT ID_MATERIA FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<Integer> result = new ArrayList<Integer>();
+				while(rs.next())
+					result.add(rs.getInt("ID_MATERIA"));
+				
+				int[] temp = new int[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setMaterias(temp);
+			}
+
+			//Relaciona as tags das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT T.NOME FROM TAG T INNER JOIN DUVIDA_TAG DT ON DT.ID_TAG=T.ID_TAG WHERE DT.ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<String> result = new ArrayList<String>();
+				while(rs.next())
+					result.add(rs.getString("NOME"));
+				
+				String[] temp = new String[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setTags(temp);
+			}
+			
+			return duvidas;
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar todas as Dúvidas");
+			System.out.println(e);
+			return null;
+		}
+	}
+
+	@Override
+	public List<Duvida> buscarDuvidasUsuarioRelacionadoMateriaData(int idUsuario, int idMateria) {
+		try {
+
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			calendar.add(Calendar.DAY_OF_YEAR, -1); // data de ontem
+
+			Connection con = JDBCUtil.getInstance().getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT DISTINCT D.ID_DUVIDA, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, U.NOME, U.ID_USUARIO, (SELECT COUNT(ID_RESPOSTA)"
+							+ "FROM RESPOSTA R WHERE R.ID_DUVIDA = MD.ID_DUVIDA) AS QTD_RESPOSTAS FROM MATERIA_DUVIDA MD "
+							+ "INNER JOIN MATERIA_USUARIO MU ON MU.ID_MATERIA = MD.ID_MATERIA INNER JOIN USUARIO U on MU.ID_USUARIO = U.ID_USUARIO "
+							+ "INNER JOIN DUVIDA D ON D.ID_DUVIDA = MD.ID_DUVIDA "
+							+ "INNER JOIN RESPOSTA R1 ON D.ID_DUVIDA = MD.ID_DUVIDA  "
+							+ "WHERE R1.DATA_CRIACAO BETWEEN ? AND ? AND U.ID_USUARIO = ? AND MU.ID_MATERIA=?");
+			pstmt.setString(1, sdf.format(calendar.getTime())); // data inicial
+			calendar.add(Calendar.DAY_OF_YEAR, +1); // data de hoje
+			pstmt.setString(2, sdf.format(calendar.getTime())); // data final
+			pstmt.setInt(3, idUsuario);
+			pstmt.setInt(4, idMateria);
+
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));
+				d.setCriador(rs.getString("NOME"));
+				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
+				d.setIdUsuario(rs.getInt("ID_USUARIO"));
 				duvidas.add(d);
 			}
 			return duvidas;
@@ -257,6 +444,149 @@ public class DuvidaDAOImplementation implements DuvidaDAO {
 			System.out.println("Erro ao buscar todas as Dúvidas");
 			System.out.println(e);
 			return null;
+		}
+	}
+
+	@Override
+	public List<Duvida> buscarDuvidasFiltro(JsonPesquisa jsonPesquisa) {
+		try {
+
+			Connection con = JDBCUtil.getInstance().getConnection();
+			StringBuilder stringBuilder = new StringBuilder();
+			StringBuilder stringDuvida = new StringBuilder();
+			StringBuilder stringWhereDuvida  = new StringBuilder();
+			StringBuilder stringTAG = new StringBuilder();
+			StringBuilder stringWhereTAG = new StringBuilder();
+			StringBuilder stringMateria  = new StringBuilder();
+			StringBuilder stringWhereMateria = new StringBuilder();
+			
+			for (String pesquisa : jsonPesquisa.getPesquisa()) {
+				if (jsonPesquisa.isTitulo()){
+					if (stringDuvida.toString().equals(""))
+						stringDuvida.append("SELECT  DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO,"
+								+ " (SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA) AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME"
+								+ " FROM DUVIDA D INNER JOIN MATERIA_DUVIDA MD ON MD.ID_DUVIDA = D.ID_DUVIDA "
+								+ " INNER JOIN MATERIA M ON M.ID_MATERIA = MD.ID_MATERIA WHERE");
+					
+					if(stringWhereDuvida.toString().equals(""))
+						stringWhereDuvida.append(" D.TITULO_DUVIDA LIKE '%"+pesquisa+"%'");
+					else
+						stringWhereDuvida.append(" OR D.TITULO_DUVIDA LIKE '%"+pesquisa+"%'");
+				}			
+				if (jsonPesquisa.isConteudo()){
+					if (stringDuvida.toString().equals(""))
+						stringDuvida.append("SELECT  DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO,"
+								+ " (SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA) AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME"
+								+ " FROM DUVIDA D INNER JOIN MATERIA_DUVIDA MD ON MD.ID_DUVIDA = D.ID_DUVIDA "
+								+ " INNER JOIN MATERIA M ON M.ID_MATERIA = MD.ID_MATERIA WHERE");
+					if(stringWhereDuvida.toString().equals(""))
+						stringWhereDuvida.append(" D.CONTEUDO_DUVIDA LIKE '%"+pesquisa+"%'");
+					else
+						stringWhereDuvida.append(" OR D.CONTEUDO_DUVIDA LIKE '%"+pesquisa+"%'");
+				}			
+				if (jsonPesquisa.isTag()){
+					if(stringTAG.toString().equals("")){
+						if(stringDuvida.toString().equals(""))
+							stringTAG.append("SELECT DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, (SELECT COUNT(ID_RESPOSTA) FROM"
+									+ " RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA) AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME FROM DUVIDA D"
+									+ " INNER JOIN DUVIDA_TAG DT ON DT.ID_DUVIDA=D.ID_DUVIDA INNER JOIN TAG T ON T.ID_TAG = DT.ID_TAG WHERE ");
+						else
+							stringTAG.append(" UNION SELECT DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO, (SELECT COUNT(ID_RESPOSTA) FROM"
+									+ " RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA) AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME FROM DUVIDA D"
+									+ " INNER JOIN DUVIDA_TAG DT ON DT.ID_DUVIDA=D.ID_DUVIDA INNER JOIN TAG T ON T.ID_TAG = DT.ID_TAG WHERE ");
+					}
+						if(stringWhereTAG.toString().equals(""))
+							stringWhereTAG.append(" T.NOME LIKE '%"+pesquisa+"%'");
+						else
+							stringWhereTAG.append(" OR T.NOME LIKE '%"+pesquisa+"%'");
+						
+					}
+				if (jsonPesquisa.isMateria()){
+					if(stringWhereMateria.toString().equals("")){
+						if(stringDuvida.toString().equals("") && stringTAG.toString().equals(""))
+							stringMateria.append("SELECT  DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO,"
+									+ " (SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)"
+									+ " AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME FROM DUVIDA D INNER JOIN MATERIA_DUVIDA MD ON MD.ID_DUVIDA = D.ID_DUVIDA"
+									+ " INNER JOIN MATERIA M ON M.ID_MATERIA = MD.ID_MATERIA WHERE ");
+						else
+							stringMateria.append(" UNION SELECT DISTINCT D.ID_DUVIDA, D.ID_USUARIO, D.TITULO_DUVIDA, D.CONTEUDO_DUVIDA, D.DATA_CRIACAO,"
+									+ " (SELECT COUNT(ID_RESPOSTA) FROM RESPOSTA R WHERE R.ID_DUVIDA = D.ID_DUVIDA)"
+									+ " AS QTD_RESPOSTAS, (SELECT U.NOME FROM USUARIO U WHERE U.ID_USUARIO=D.ID_USUARIO) AS NOME FROM DUVIDA D INNER JOIN MATERIA_DUVIDA MD ON MD.ID_DUVIDA = D.ID_DUVIDA"
+									+ " INNER JOIN MATERIA M ON M.ID_MATERIA = MD.ID_MATERIA WHERE");
+					}
+					if(stringWhereMateria.toString().equals(""))
+						stringWhereMateria.append(" M.MATERIA LIKE '%"+pesquisa+"%'");
+					else
+						stringWhereMateria.append(" OR M.MATERIA LIKE '%"+pesquisa+"%'");
+					}
+				
+			}
+			
+			
+			stringBuilder.append(stringDuvida.toString()+stringWhereDuvida.toString()+stringTAG.toString()+stringWhereTAG.toString()+stringMateria.toString()+stringWhereMateria.toString());
+			PreparedStatement pstmt = con.prepareStatement(stringBuilder.toString());
+			ResultSet rs = pstmt.executeQuery();
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+
+			while (rs.next()) {
+				Duvida d = new Duvida();
+				d.setIdDuvida(rs.getInt("ID_DUVIDA"));
+				d.setTitulo(rs.getString("TITULO_DUVIDA"));
+				d.setConteudo(rs.getString("CONTEUDO_DUVIDA"));
+				d.setDataCriacao(rs.getDate("DATA_CRIACAO"));	
+				d.setQtdRespostas(rs.getInt("QTD_RESPOSTAS"));
+				d.setIdUsuario(rs.getInt("ID_USUARIO"));
+				d.setCriador(rs.getString("NOME"));
+				duvidas.add(d);
+			}
+			
+			//Relaciona as materias das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT ID_MATERIA FROM MATERIA_DUVIDA WHERE ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<Integer> result = new ArrayList<Integer>();
+				while(rs.next())
+					result.add(rs.getInt("ID_MATERIA"));
+				
+				int[] temp = new int[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setMaterias(temp);
+			}
+
+			//Relaciona as tags das dúvidas
+			for(Duvida d : duvidas){
+				pstmt = con.prepareStatement("SELECT T.NOME FROM TAG T INNER JOIN DUVIDA_TAG DT ON DT.ID_TAG=T.ID_TAG WHERE DT.ID_DUVIDA=?");
+				pstmt.setInt(1, d.getIdDuvida());
+				rs = pstmt.executeQuery();
+				
+				ArrayList<String> result = new ArrayList<String>();
+				while(rs.next())
+					result.add(rs.getString("NOME"));
+				
+				String[] temp = new String[result.size()];
+				for(int i=0;i<result.size();i++)
+					temp[i]=result.get(i);
+					
+				d.setTags(temp);
+			}
+			
+			return duvidas;
+			
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar Dúvidas");
+			System.out.println(e);
+
+			List<Duvida> duvidas = new ArrayList<Duvida>();
+			Duvida d = new Duvida();
+			d.setTitulo("Erro ao buscar Dúvidas");
+			d.setConteudo(e.toString());
+			duvidas.add(d);
+
+			return duvidas;
 		}
 	}
 }

@@ -16,7 +16,7 @@ import model.Duvida;
 import model.Materia;
 import model.Tag;
 import model.Usuario;
-import util.JsonDuvida;
+import util.JsonPesquisa;
 import dao.DuvidaDAO;
 
 /**
@@ -35,9 +35,8 @@ public class DuvidaControl {
 
 	@POST
 	@Path("adicionarDuvida")
-	@Produces("application/json; charset=utf-8")
 	public Response adicionarDuvida(String jsonDuvida) {
-		JsonDuvida temp = objects.fromJson(jsonDuvida, JsonDuvida.class);
+		Duvida temp = objects.fromJson(jsonDuvida, Duvida.class);
 		Duvida d = new Duvida();
 		d.setIdDuvida(temp.getIdDuvida());
 		d.setTitulo(temp.getTitulo());
@@ -46,7 +45,7 @@ public class DuvidaControl {
 		int idUsuario = temp.getIdUsuario();
 		int[] materias = temp.getMaterias();
 
-		if (temp.getTags() == null) {
+		if (temp.getTags() != null) {
 			TagControl tagController = new TagControl();
 			String[] tags = temp.getTags();
 			int[] idsTags = tagController.inserirTags(tags);
@@ -55,7 +54,7 @@ public class DuvidaControl {
 		} else {
 			boolean retorno = dao.adicionarDuvida(d, idUsuario, materias, null);
 			return Response.status(200).entity(retorno).build();
-		}		
+		}
 	}
 
 	@POST
@@ -90,16 +89,17 @@ public class DuvidaControl {
 		String json = gson.toJson(duvidas);
 		return Response.status(200).entity(json).build();
 	}
-	
+
 	@GET
 	@Path("buscarDuvidas")
 	@Produces("application/json; charset=utf-8")
-	public Response buscarDuvidas() {		
+	public Response buscarDuvidas() {
 		List<Duvida> duvidas = dao.buscarDuvidas();
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(duvidas);
 		return Response.status(200).entity(json).build();
 	}
+
 	@POST
 	@Path("buscarDuvidasMateriaPorUsuario")
 	@Produces("application/json; charset=utf-8")
@@ -110,5 +110,16 @@ public class DuvidaControl {
 		String json = gson.toJson(duvidas);
 		return Response.status(200).entity(json).build();
 	}
-	
+
+	@POST
+	@Path("buscarDuvidasFiltro")
+	@Produces("application/json; charset=utf-8")
+	public Response buscarDuvidasFiltro(String jsonPesquisa) {
+		JsonPesquisa temp = objects.fromJson(jsonPesquisa, JsonPesquisa.class);
+		List<Duvida> duvidas = dao.buscarDuvidasFiltro(temp);
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(duvidas);
+		return Response.status(200).entity(json).build();
+	}
+
 }

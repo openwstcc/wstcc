@@ -29,11 +29,9 @@ public class RespostaControl {
 
 	private Gson objects = new Gson();
 	RespostaDAO dao = new RespostaDAOImplementation();
-	Notificacao n = new Notificacao();
 
 	@POST
-	@Path("adicionarResposta")
-	@Consumes("application/json")
+	@Path("adicionarResposta")	
 	public Response adicionarResposta(String resposta) {
 		Resposta r = objects.fromJson(resposta, Resposta.class);
 		boolean retorno = dao.adicionarResposta(r);
@@ -45,7 +43,7 @@ public class RespostaControl {
 	@Produces("application/json; charset=utf-8")
 	public Response buscarRespostas(String jsonDuvida) {
 		Duvida d = objects.fromJson(jsonDuvida, Duvida.class);
-		List<Resposta> respostas = dao.buscarRespostas(d.getIdDuvida());
+		List<Resposta> respostas = dao.buscarRespostas(d.getIdDuvida(),d.getUsuarioLogado());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(respostas);
 		return Response.status(200).entity(json).build();
@@ -59,13 +57,12 @@ public class RespostaControl {
 	 */
 	@POST
 	@Path("adicionarRank")
-	@Consumes("application/json")
 	public Response adicionarRank(String jsonResposta) {
-		Resposta r = objects.fromJson(jsonResposta, Resposta.class);
-		boolean retorno = dao.adicionaRank(r.getIdResposta(),r.getIdUsuario());
-		return Response.status(200).entity(retorno).build();
+	Resposta r = objects.fromJson(jsonResposta, Resposta.class);
+	boolean retorno = dao.adicionaRank(r.getIdResposta(),r.getUsuarioLogado(),r.isFlagCriador());
+	return Response.status(200).entity(retorno).build();
 	}
-
+	
 	@POST
 	@Path("alteraFlagAluno")
 	@Consumes("application/json")

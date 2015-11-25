@@ -56,6 +56,7 @@ public class MateriaDAOImplementation implements MateriaDAO {
 				m.setMateria(rs.getString("MATERIA"));
 				m.setSemestre(rs.getInt("SEMESTRE"));
 				m.setMarcado(rs.getBoolean("MARCADO"));
+				m.setIdUsuario(idUsuario);
 				materias.add(m);
 			}
 			pstmt.close();
@@ -134,23 +135,25 @@ public class MateriaDAOImplementation implements MateriaDAO {
 	}
 
 	@Override
-	public boolean atualiarMateriasUsuario(int idUsuario, int[] idMaterias) {
+	public int atualizarMateriasUsuario(List<Materia> materias) {
 		Connection con;
 		try {
 			con = JDBCUtil.getInstance().getConnection();
-			PreparedStatement pstmt;
-			for (int idMateria : idMaterias) {
-				pstmt = con.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
-				pstmt.setInt(1, idMateria);
-				pstmt.setInt(2, idUsuario);
-				pstmt.executeUpdate();
-				pstmt.close();
+			PreparedStatement pstmt;			
+			for (Materia m : materias) {
+				if(m.isMarcado()){
+					pstmt = con.prepareStatement("INSERT INTO MATERIA_USUARIO (ID_MATERIA, ID_USUARIO) VALUES (?,?)");
+					pstmt.setInt(1, m.getIdMateria());
+					pstmt.setInt(2, m.getIdUsuario());
+					pstmt.executeUpdate();
+					pstmt.close();
+				}				
 			}
-			return true;
+			return 200;
 		} catch (SQLException e) {
 			System.out.println("Erro ao inserir relação de Materia e Usuario.");
 			e.printStackTrace();
-			return false;
+			return e.getErrorCode();
 		}
 	}
 

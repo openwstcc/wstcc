@@ -11,6 +11,7 @@ public class Materia {
 	private String materia;
 	private int semestre;
 	private boolean marcado;
+	private int idUsuario;
 
 	public boolean isMarcado() {
 		return marcado;
@@ -78,6 +79,14 @@ public class Materia {
 		if (semestre != other.semestre)
 			return false;
 		return true;
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	

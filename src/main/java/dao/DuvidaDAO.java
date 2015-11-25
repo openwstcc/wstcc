@@ -1,6 +1,8 @@
 package dao;
 
 import model.Duvida;
+import util.JsonPesquisa;
+
 import java.util.List;
 
 /**
@@ -72,11 +74,11 @@ public interface DuvidaDAO {
 	 */
 	public List<Duvida> buscarDuvidasTags(int idTag);
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public List<Duvida> buscarDuvidas();
+	
+	public List<Duvida> buscarDuvidasFiltro(JsonPesquisa jsonPesquisa);
 
 	public List<Duvida> buscarDuvidasUsuarioRelacionadoMateria(int idUsuario);
+
+	public List<Duvida> buscarDuvidasUsuarioRelacionadoMateriaData(int idUsuario,int idMateria);
 }

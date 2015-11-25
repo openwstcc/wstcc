@@ -6,8 +6,8 @@ import model.Usuario;
 
 public class UsuarioTest {
 	private Usuario u;
-	private String[] nome = { "JOAO", "JOSE", "MARIA", "CAIO", "ANA" };
-	private String[] sobrenome = { "SILVA", "SANTOS", "FREIRE", "FREITAS", "OLIVEIRA" };
+	private String[] nome = { "Joao", "Jose", "Maria", "Caio", "Ana" };
+	private String[] sobrenome = { "Silva", "Santos", "Freire", "Freitas", "Oliveira" };
 	private String[] senha = { "1234", "4321", "1423", "2134", "4123", "3124" };
 	private String[] telefone = { "+551191238423", "+551191124423", "+551199138588", "+5511933216523",
 			"+5511951231123" };

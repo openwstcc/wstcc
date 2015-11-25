@@ -31,11 +31,11 @@ public class RespostaDAOTest {
 	}
 
 	public static List<Resposta> selectRespostas() {
-		return dao.buscarRespostas(rnd.nextInt(5) + 1);
+		return dao.buscarRespostas(rnd.nextInt(5) + 1,1);
 	}
 
 	public static boolean adicionaRank() {		
-		return dao.adicionaRank(rnd.nextInt(5) + 1);
+		return true;
 	}
 
 	public static boolean alteraFlagAluno() {		

@@ -1,10 +1,10 @@
-package tests;
+package control;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("teste")
+@Path("heal")
 public class RestTest {
 	
 	@GET

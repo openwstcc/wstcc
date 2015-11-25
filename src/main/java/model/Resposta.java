@@ -18,6 +18,16 @@ public class Resposta {
 	private int rank;
 	private int idUsuario;
 	private int idDuvida;
+	private boolean deuLike;
+	private int usuarioLogado;
+
+	public int getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(int usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
 
 	public int getIdUsuario() {
 		return idUsuario;
@@ -145,6 +155,12 @@ public class Resposta {
 		} else if (!resposta.equals(other.resposta))
 			return false;
 		return true;
+	}
+	public boolean isDeuLike() {
+		return deuLike;
+	}
+	public void setDeuLike(boolean deuLike) {
+		this.deuLike = deuLike;
 	}
 
 }
